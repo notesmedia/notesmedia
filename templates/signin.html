@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/signin.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="main">
+        <p id="warning"> {{warning}} </p>
+        <form method = "POST" action = "{{path}}">
+
+            <h2>SIGN IN</h2>
+            <input type="text" class = "box" name="email">
+            <input type="password" class = "box" name="password">
+            <a href="/sign_up">signup</a>
+            <input type="submit" >
+        </form>
+    </div>
+
+
+    
+</body>
+</html>

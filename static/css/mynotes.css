@@ -1,0 +1,13 @@
+#allnotes{
+    display: flex;
+}
+
+#singlenote{
+    background-color: rgb(234, 234, 234);
+    width: 200px;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}

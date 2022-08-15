@@ -1,0 +1,19 @@
+#main{
+    background-color: rgb(177, 177, 177);
+    height: 80vh;
+    width: 50vw;
+    margin: auto;
+    padding: 5px 5px;
+    display: flex;
+  
+}
+
+#main form{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.box {
+    margin: 5px;
+}
