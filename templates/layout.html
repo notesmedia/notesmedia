@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/navbar.css">
+    <title>NotesMedia</title>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+
+    <header>
+        <nav>
+            <form action="/search" , method="get">
+                <input type="text" id="search-box" name="q">
+                <input type="hidden" name="page" value= "1">
+                <input type="submit" id="search-button"  >
+            </form>
+
+            
+        </nav>
+
+        <a href="/mynotes">my notes</a>
+
+        <form action="/sign_in">
+            
+            <input id = "signin" type="submit"  value="sign in">
+        </form>
+    </header>
+
+
+
+    {% block main %}
+    {% endblock  %}
+    
+</body>
+</html>
