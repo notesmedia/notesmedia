@@ -74,43 +74,34 @@ def sign_in(path_before = ""):
 
     current_url = request.url
     current_url = "/"+current_url.replace(request.root_url , "")
-    print("the current url is "+ current_url)
+    current_url = current_url.replace("/sign_in" , "")
 
-    
+    print(current_url)
 
     if request.method == "POST":
-        print("here")
+       
         email = request.form["email"]
         password = request.form["password"]
-
-        current_url_split  = current_url.split("/")
-        
-        
+             
 
         cursor.execute(f"select password from users where email='{email}'")
         real_password = cursor.fetchone()[0]
-        print(password , real_password)
+      
         if password !=  real_password:
             
             return render_template("signin.html" , warning = "incorrect password" , path = current_url)
             
         else:
-            current_url_split.remove("sign_in")
-            if len(current_url_split) == 1:
-                response_url = "/"
-            else:
-                response_url  = "/".join(current_url_split)
             
-            print("your password is correct")
-            print(current_url_split)
-            response = make_response(redirect(response_url))
+
+            response = make_response(redirect(current_url ))
             response.set_cookie("email" , email)
             response.set_cookie("password" , password)
             return response
         
     else:
-        
-        return render_template("signin.html" ,warning = "" , path = current_url)
+        print("hereeeeee")
+        return render_template("signin.html" ,warning = "" , path = current_url )
 
 @app.route("/sign_up" , methods = ["GET","POST"])
 def sign_up():

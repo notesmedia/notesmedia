@@ -1,37 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/preview.css">
-    <link rel="stylesheet" href="../static/css/navbar.css">
-    <title>Document</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-    <header>
-        <nav>
-            <form action="/search" , method="get">
-                <input type="text" id="search-box" name="q">
-                <input type="submit" id="search-button"  >
-            </form>
-        </nav>
-    </header>
+{% block head %}
 
-    <div id= "main">
-        <div id = "content">
+<!-- <link rel="stylesheet" href="{{ url_for('static' , filename = 'preview.css') }}"> -->
+<link rel="stylesheet" href="../static/css/preview.css">
+{% endblock %}
 
-            <h2>{{ data[1]}}</h2>
-            <h3>subject {{data[4]}} </h3>
-            <h3>{{data[3]}} </h3>
-            
-            <form action=  "/preview/{{data[1]}}/purchase_complete" , method ="get">
-                <input type="submit" value="BUY NOW">
-            </form>
+{% block main %}
 
-        </div>
+<div id="main">
+    <div id="content">
+
+        <h2>{{ data[1]}}</h2>
+        <h3>subject {{data[4]}} </h3>
+        <h3>{{data[3]}} </h3>
+
+        <form action="/preview/{{data[1]}}/purchase_complete" , method="get">
+            <input type="submit" value="BUY NOW">
+        </form>
 
     </div>
-</body>
-</html>
+
+</div>
+{% endblock %}

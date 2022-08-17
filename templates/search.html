@@ -1,89 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/navbar.css">
-    <link rel="stylesheet" href="../static/css/search.css">
-    <title>Document</title>
-</head>
-<body>
 
-    <header>
-        <nav>
-            <form action="" , methos=""get>
-                <input type="text" id="search-box" name="q">
-                <input type="submit" id="search-button"  >
-            </form>
-        </nav>
-    </header>
 
-    <div id="allresults">
-        {% for item in data%}
-        <div class ="singleresult">
-            
-            <a href= "/preview/{{ item[1] }}" >{{item[1]}}</a>
-            <h4>{{ item[2] }}</h4>
-            <h4>{{ item[4] }}</h4>
+{% extends "layout.html" %}
 
-        </div>
-        {% endfor %}
+
+{% block head %}
+<link rel="stylesheet" href="static/css/search.css">
+{% endblock %}
+
+{% block main %}
+<div id="allresults"> 
+    {% for item in data%}
+    <div class="singleresult">
+
+        <a href="/preview/{{ item[1] }}">{{item[1]}}</a>
+        <h4>{{ item[2] }}</h4>
+        <h4>{{ item[4] }}</h4>
+
     </div>
+    {% endfor %}
+</div>
 
-    <div id="pagechange">
-        <div id="pagechangebox">
+<div id="pagechange">
+    <div id="pagechangebox">
 
-            {% if page != 1%}
+        {% if page != 1%}
 
-            <form action = "/search" method="GET" class = "button">
-                <input type="hidden" name = "q" value= "{{search}}">
-                <input type="hidden" value = {{page-1}} name="page">
-                <input type="submit" value = "Previous"}>
-            </form>
+        <form action="/search" method="GET" class="button">
+            <input type="hidden" name="q" value="{{search}}">
+            <input type="hidden" value={{page-1}} name="page">
+            <input type="submit" value="Previous" }>
+        </form>
 
-            {% endif %}
+        {% endif %}
 
-            {% for button in buttons[:-1] %}
-
-
-            <form action = "/search" method="GET" class = "button">
-                <input type="hidden" name = "q" value= "{{search}}">
-                <input type="hidden" value = {{button}} name="page">
-                <input type="submit" value = {{button}}>
-            </form>
-
-            {% endfor %}
+        {% for button in buttons[:-1] %}
 
 
+        <form action="/search" method="GET" class="button">
+            <input type="hidden" name="q" value="{{search}}">
+            <input type="hidden" value={{button}} name="page">
+            <input type="submit" value={{button}}>
+        </form>
 
-            {% if page+1 < last_page%}
+        {% endfor %}
 
-            ...
-            <form action = "/search" method="GET" class = "button">
-                <input type="hidden" name = "q" value= "{{search}}">
-                <input type="hidden" value = {{last_page}} name="page">
-                <input type="submit" value = {{last_page}}>
+
+
+        {% if page+1 < last_page%} ... <form action="/search" method="GET" class="button">
+            <input type="hidden" name="q" value="{{search}}">
+            <input type="hidden" value={{last_page}} name="page">
+            <input type="submit" value={{last_page}}>
             </form>
 
             {% endif %}
 
             {% if page != buttons[-1] %}
-            
-            <form action = "/search" method="GET" class = "button">
-                <input type="hidden" name = "q" value= "{{search}}">
-                <input type="hidden" value = {{page+1}} name="page">
-                <input type="submit" value = "NEXT">
+
+            <form action="/search" method="GET" class="button">
+                <input type="hidden" name="q" value="{{search}}">
+                <input type="hidden" value={{page+1}} name="page">
+                <input type="submit" value="NEXT">
             </form>
 
             {% endif %}
 
 
-           
-        </div>
 
     </div>
 
-    
-</body>
-</html>
+</div>
+
+{% endblock %}
