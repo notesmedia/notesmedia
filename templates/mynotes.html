@@ -1,35 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/navbar.css">
+{% extends "layout.html" %}
+    
+    {% block head %}
     <link rel="stylesheet" href="/static/css/mynotes.css">
-    <title>Document</title>
-</head>
-<body>
+    {% endblock %}
 
-    <header>
-        <nav>
-            <form action="/search" , method="get">
-                <input type="text" id="search-box" name="q">
-                <input type="submit" id="search-button"  >
-            </form>
-            
-        </nav>
-    </header>
-
-
+    {% block main %}
         <div id="allnotes">
             {% for item in data%}
             <div id="singlenote">
-                <a href = "/mynotes/{{item[0]}}">{{item[0]}}</a>
-                <h3>{{item[1]}}</h3>
+                <a href = "/mynotes/{{item[0]}}">{{item[1]}}</a>
+                <h3>{{item[2]}}</h3>
                 
             </div>
             {% endfor %}
         </div>
+    {% endblock %}
     
 </body>
 </html>

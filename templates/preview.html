@@ -9,15 +9,42 @@
 {% block main %}
 
 <div id="main">
+
     <div id="content">
 
-        <h2>{{ data[1]}}</h2>
-        <h3>subject {{data[4]}} </h3>
-        <h3>{{data[3]}} </h3>
+        <div id="preview">
+            <img src="../static/thumpnails/{{data[0]}}.png" alt="sanam kittila">
+        </div>
+        <div id="details">
 
-        <form action="/preview/{{data[1]}}/purchase_complete" , method="get">
-            <input type="submit" value="BUY NOW">
-        </form>
+            <div id="heading">
+                <h2 id="title">{{ data[1]}} subject {{data[3]}} </h2>
+                <span id="rating">{{rating}}★</span>
+            </div>
+
+            <div id="profile">
+
+                <h3>{{data[5]}}</h3> <img src="/static/profile_pics/{{data[4]}}.png" alt="profile pic">
+            </div>
+
+            <h2 id="cost">₹ {{data[2]}}</h2>
+
+            <ul id="label-features">
+
+                {% if data[6] != None %}
+                {% for item in data[6].split("\\n") %}
+                <li>{{item}}</li>
+                {% endfor %}
+                {% endif %}
+            </ul>
+
+
+
+            <form action="/preview/{{data[0]}}/purchase_complete" id="buy-now">
+                <input type="submit" value="BUY NOW">
+            </form>
+
+        </div>
 
     </div>
 

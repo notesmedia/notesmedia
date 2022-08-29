@@ -1,40 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/viewnote.css">
-    <link rel="stylesheet" href="/static/css/navbar.css">
-    <title>Document</title>
-</head>
-<body>
 
-    <header>
-        <nav>
-            <form action="/search" , method="get">
-                <input type="text" id="search-box" name="q">
-                <input type="submit" id="search-button"  >
-            </form>
-            
-        </nav>
-        
-        <a href="/mynotes">my notes</a>
-        
+{% extends "layout.html" %}
 
-        <form action="/sign_in">
-            <input id = "signin" type="submit"  value="sign in">
-        </form>
-    </header>
-   
-    <div id="viewer">
-
+    {% block head %}
+   <!-- <link rel="stylesheet" href="url_for('static' , 'css/viewnote.css')"> -->
+   <link rel="stylesheet" href="../static/css/viewnote.css">
+   {% endblock %}
         
-        
-        
+    
+   {% block main %}
+    <div id="viewer">        
         <!-- <embed src= " {{url_for('static' , filename = 'notes/haloalkanes.pdf')}} "  width="800px" height="800px" /> -->
         <embed src= "{{path}} "  width="800px" height="800px" />
     </div>
+    {% endblock %}
     
-</body>
-</html>

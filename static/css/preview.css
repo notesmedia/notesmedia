@@ -1,10 +1,108 @@
-#content{
-    background-color: rgb(209, 209, 209);
-    margin: 20px;
-    padding: 20px;
-    height: 50vh;
-    width: 80vw;
-    margin: auto;
+*{
+    font-family: sans-serif;
+}
+#main{
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 20vh;
+    width: 100vw;
+    padding: 10px;
+}
+#content{
+    background-color: #f8f8f8;
+    box-shadow: 0px 0px 10px 2px rgb(205, 205, 205);
+    margin: auto;
+    padding: 20px;
+    width: fit-content;
+    display: flex;
+    
 
+}
+#preview{
+
+    height: fit-content;
+    /* background-color: red; */
+}
+#preview img{
+    /* width: 100vh; */
+    height: 70vh;
+    width: auto;
+}
+#profile{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin:4vh 0px;
+}
+#profile h3{
+    margin: 0px 5px;
+
+}
+#profile img{
+    width: 4vh;
+    border-radius: 100%;
+}
+    
+
+
+#details{
+    /* background-color: red; */
+    margin: 10px;
+    height: 70vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    /* align-items: flex-end; */
+
+    
+
+}
+
+
+@media (max-width:100vh){
+    #content{
+        flex-direction: column;
+    }
+    #preview img{
+        width : 80vw;
+        height: auto;
+    }
+    #details{
+        width: 80vw;
+        height: auto;
+    }
+}
+
+
+#cost{
+    margin-left: 18%;
+    margin-bottom: 6%;
+}
+
+#label-features{
+    font-size: 18px;
+    margin:  0px 5vw;
+
+}
+
+#rating{
+    background-color: rgb(153, 255, 0);
+    padding: 2px 10px;
+    margin: 5%;
+
+}
+
+#buy-now{
+    width: min-content;
+    margin: auto;
+}
+
+#buy-now input{
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 7px;
+    color: blue;
+    border: 3px solid blue;
+    margin: auto;
 }

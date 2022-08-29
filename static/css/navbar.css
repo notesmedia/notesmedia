@@ -5,8 +5,25 @@
 
 }
 
-header nav{
+#title{
+    margin-left: 2vh;
+    color: rgb(0, 0, 144);
+}
+
+header{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+}
+
+header nav{
+    
+    align-items: center;
+    
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -15,15 +32,24 @@ header nav{
     /* display: inline; */
     margin: auto;
 }
-header{
-    background-color: rgb(191, 191, 191);
-    display: flex;
 
     
-}
 
 #search-box{
     font-size: 24px;
+}
+
+#links{
+    display: flex;
+    list-style: none;
+}
+
+#links li{
+    margin: 0px 5px;
+}
+
+#links a{
+    text-decoration: none;
 }
 
 #signin{

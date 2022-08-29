@@ -1,25 +1,103 @@
-.singleresult{
-    width: 200px;
-    height: 200px;
-    /* display: inline; */
-    background-color: rgb(207, 207, 207);
-    margin: 50px;
-    float : left;
+html{
+    width: 100vw;
+    margin: auto;
+}
+body{
+    width: 100%;
+    
+}
+#allresults{
+    display: grid;
+    grid-template-columns: repeat(auto-fit , minmax(300px , 1fr));
+    justify-content: center;
+    align-items: center;
+    margin: 5% 10%;
     
 }
 
-#allresults{
-    /* display: grid; */
-    /* grid-column: auto; */
-    display: block;
-    overflow:hidden;
-    /* background-color: rgb(0, 51, 255); */
+.singleresult{
+/*      */
+
+    font-size: 1.3rem;
+    height: 400px; 
+    background-color: rgb(254, 254, 254);
+    margin: 25px;
+    box-shadow: 0px 0px 10px 1px rgb(193, 193, 193);
     
     
 }
+
+#imagediv{
+    height: 50%;
+    
+}
+
+
+#profile_pic{
+    height: 30%;
+    width: same-as-height;
+    border-radius: 100%;
+    position: relative;
+    top: -20%;
+    left: 70%;
+}
+
+
+#details{
+    
+    background-color: rgb(255, 255, 255);
+    height: 42%;
+    padding: 5%;
+    justify-content: center;
+    align-items: center;
+    color: blue;
+
+    /* box-shadow: 0px -10px 10px 10px rgb(193, 193, 193) ; */
+       
+}
+
+#details a{
+    text-decoration: none;
+    color: blue;
+    display: block;
+    text-align: center;
+   
+    
+}
+.text{
+    color: blue;
+    text-align : center;
+    
+}
+
+#view{
+    position: relative;
+    width: 30%;
+    height: 15%;
+    border-radius: 50px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    border: 2px solid blue;
+    color: blue;
+    bottom: 10%;
+    
+    
+}
+
+#thumpnail{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: 0px 10%;
+    
+    
+}
+
 
 #pagechange{
-    background-color: rgb(146, 146, 146);
+    background-color: rgb(243, 243, 243);
     align-items: center;
     justify-content: center;
     
@@ -38,8 +116,10 @@
 }
 
 .button{
-    display: inline;
+    
     margin: 5px;
+    padding: 5px 10px;
+    
     
 
 }

@@ -1,40 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/layout.css">
+
+
     <title>NotesMedia</title>
     {% block head %}
     {% endblock %}
 </head>
+
 <body>
 
     <header>
+        <h2 id="title">NotesMedia</h2>
         <nav>
             <form action="/search" , method="get">
                 <input type="text" id="search-box" name="q">
-                <input type="hidden" name="page" value= "1">
-                <input type="submit" id="search-button"  >
+                <input type="hidden" name="page" value="1">
+                <input type="submit" id="search-button" value="Search">
             </form>
 
-            
+
         </nav>
 
-        <a href="/mynotes">my notes</a>
+        <ul id="links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/mynotes">my notes</a></li>
+            <li><a href="/publisher_portal">sell notes</a></li>
 
-        <form action="/sign_in">
-            
-            <input id = "signin" type="submit"  value="sign in">
-        </form>
+
+        </ul>
+
+        <div id="signin">
+            <a href="/sign_in" id="signinbutton">SIGN IN</a>
+
+            <div id="signed_in">
+                <span id="email">email</span>
+
+                <div id="signinmenu">
+                    <ul>
+                        <li>my profile</li>
+                        <li>switch account</li>
+                        <li>sign out</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
     </header>
 
 
-
+    
     {% block main %}
-    {% endblock  %}
+    {% endblock %}
+
+    <script src="{{ url_for('static' , filename = 'js/layout.js') }}"></script>
+
     
 </body>
+
 </html>

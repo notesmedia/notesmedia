@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>user about me section - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <style>
+    a {
+      color: black;
+    }
+
+    .bg-light1 {
+      height: 35px;
+      width: 40%;
+      background-color: #d6e1ec;
+      border: None;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* position: absolute; */
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 50px;
+      /* margin-bottom: 50px; */
+      /* border-top: none; */
+      /* border-color: #b9005b; */
+      padding: 20px;
+      /* margin: 50px; */
+      /* box-shadow: 0px 0px 15px 7px #6591bb; */
+      border-radius: 25px;
+    }
+
+    .bg-light22 {
+      height: 35px;
+      width: 40%;
+      background-color: #d6e1ec;
+      border: None;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* position: absolute; */
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 50px;
+      margin-bottom: 100px;
+      /* margin-bottom: 50px; */
+      /* border-top: none; */
+      /* border-color: #b9005b; */
+      padding: 20px;
+      /* margin: 50px; */
+      /* box-shadow: 0px 0px 15px 7px #6591bb; */
+      border-radius: 25px;
+    }
+
+    /* } */
+    /* h2{ */
+    /* font-family: 'Times New Roman', Times, serif; */
+    /* font-weight: bold; */
+    /* font-style: italic; */
+    /*        */
+    /* } */
+    /* h1 { */
+    /* color: white; */
+    /* font-family: audrey; */
+    /* font-weight: bold; */
+    /* margin-bottom: 100px; */
+    /* } */
+    .firstbox {
+      height: 90px;
+      background-color: #15395a;
+      padding-top: 10px;
+      border-bottom: solid;
+      color: white;
+    }
+
+    /* border-color: #b9005b; */
+    /* box-shadow: 0px 0px 15px 7px  #8bb3d8;} 
+/*        */
+    /* } */
+    .bg-light1:hover {
+      background-color: #15395a;
+      color: white;
+      box-shadow: 0px 0px 15px 7px #cbd0da;
+    }
+    .bg-light22:hover {
+      background-color: #b9005b;
+      color: white;
+      box-shadow: 0px 0px 15px 7px #e497bd;
+    }
+    /* body{ */
+    /* background-image: url("/static/5570863.jpg"); */
+    /*        */
+    /* } */
+    /* img{ */
+    /* height: 90px; */
+    /* } */
+    /* .span1{ */
+    /* margin-left: 90%; */
+    /* color: white; */
+    /*       */
+    /* } */
+
+    .heading {
+      background-color: #ffffff;
+      border: None;
+      border-top: none;
+      border-bottom: solid;
+      border-color: #15395a;
+      padding: 20px;
+      border-width: 5px;
+      width: 100%;
+      /* box-shadow: 0px 0px 15px 7px #8bb3d8; */
+    }
+
+    input[type="submit"]:hover {
+      background-color: #15395a;
+      color: white;
+      /* box-shadow: 0px 0px 15px 7px #a1ccf5; */
+      display: inline;
+      width: 150px;
+    }
+    input[type="submit"] {
+      /* background-color: #b9005b; */
+      color: #15395a;
+      width: 150px;
+      font-weight: bold;
+      font-family: "Brush Script MT", cursive;
+      /* box-shadow: 0px 0px 15px 7px #e6e4e4 */
+      display: inline;
+    }
+
+    .form1 {
+      display: inline;
+    }
+    #publications {
+      display: flex;
+      justify-content: right;
+      width: 100%;
+    }
+    .input1 {
+      padding: 5px;
+      margin-right: 2px;
+    }
+
+    .input2 {
+      padding: 5px;
+      margin-left: 5px;
+    }
+    #inp3 {
+      padding: 5px;
+      color: #af0d35;
+    }
+    #inp3 :hover {
+      padding: 5px;
+      background-color: white;
+    }
+  </style>
+  <body>
+    <div class="heading">
+      <center>
+        <h1
+          style="
+            color: #15395a;
+            font-family: orbitron;
+            font-size: 50px;
+            font-weight: bolder;
+          "
+        >
+          Publisher's&nbsp;&nbsp;Portal
+        </h1>
+      </center>
+      
+
+      <div id="publications">
+        <lord-icon
+            src="https://cdn.lordicon.com/hwixfird.json"
+            trigger="morph"
+            colors="primary:#121331"
+            style="width:100px;height: 50px; margin-right: 80%; margin-bottom: 50px;">
+        </lord-icon>
+        
+      <!-- </div> -->
+        <form action="/secondpage/publish" class="form1" method="POST">
+          <input type="text" name="id" value="{{id}}" style="display: none" />
+          <input type="submit" value="Publish" id="inp3" />
+        </form>
+
+        <form action="/secondpage/insights" class="form1" method="POST">
+          <input type="submit" value="LOG OUT" class="input2" />
+        </form>
+        <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+       
+      </div>
+
+    <section class="bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 mb-4 mb-sm-5">
+            <div class="card card-style1 border-0">
+              <div class="card-body p-1-9 p-sm-2-3 p-md-6 p-lg-7">
+                <div class="row align-items-center">
+                  <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img style="width: 50%;"
+                      src="static/profile_pics/{{id}}.png"
+                      alt="..."
+                    />
+                  </div>
+                  <div class="col-lg-6 px-xl-10">
+                    <div
+                      class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded"
+                    >
+                      <h3 class="h2 text-white mb-0">{{data[3].upper()}}</h3>
+                      <span class="text-primary">Coach</span>
+                    </div>
+
+                    <div class="bar">
+                      <div class="p"></div>
+                    </div>
+                    <ul class="list-unstyled mb-1-9">
+                      <li class="mb-2 mb-xl-3 display-28">
+                        <span
+                          class="display-26 text-secondary me-2 font-weight-600"
+                          >Position:</span
+                        >
+                        Coach
+                      </li>
+
+                      <li class="mb-2 mb-xl-3 display-28">
+                        <span
+                          class="display-26 text-secondary me-2 font-weight-600"
+                          >Email:</span
+                        >
+                        {{data[1]}}
+                      </li>
+
+                      <li class="display-28">
+                        <span
+                          class="display-26 text-secondary me-2 font-weight-600"
+                          >Phone:</span
+                        >
+                        {{data[7]}}
+                      </li>
+                    </ul>
+                    <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
+                      <li>
+                        <a href="#!"><i class="ti-twitter-alt"></i></a>
+                      </li>
+                      <li>
+                        <a href="#!"><i class="ti-facebook"></i></a>
+                      </li>
+                      <li>
+                        <a href="#!"><i class="ti-pinterest"></i></a>
+                      </li>
+                      <li>
+                        <a href="#!"><i class="ti-instagram"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 mb-4 mb-sm-5">
+            <div>
+              <span class="section-title text-primary mb-3 mb-sm-4"
+                >About Me</span
+              >
+              <p>{{data[6]}}</p>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="row">
+              <div class="col-lg-12 mb-4 mb-sm-5">
+                <div class="mb-4 mb-sm-5">
+                  <span class="section-title text-primary mb-3 mb-sm-4"
+                    >Skill</span
+                  >
+                  <div class="progress-text">
+                    <div class="row">
+                      <div class="col-6">Student Satisfaction</div>
+                      <div class="col-6 text-end">80%</div>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-progress progress progress-medium mb-3"
+                    style="height: 4px"
+                  >
+                    <div
+                      class="animated custom-bar progress-bar slideInLeft bg-secondary"
+                      style="width: 80%"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="10"
+                      role="progressbar"
+                    ></div>
+                  </div>
+                  <div class="progress-text">
+                    <div class="row">
+                      <div class="col-6">Publications</div>
+                      <div class="col-6 text-end">90%</div>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-progress progress progress-medium mb-3"
+                    style="height: 4px"
+                  >
+                    <div
+                      class="animated custom-bar progress-bar slideInLeft bg-secondary"
+                      style="width: 90%"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="70"
+                      role="progressbar"
+                    ></div>
+                  </div>
+                  <div class="progress-text">
+                    <div class="row">
+                      <div class="col-6">Experience</div>
+                      <div class="col-6 text-end">50%</div>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-progress progress progress-medium mb-3"
+                    style="height: 4px"
+                  >
+                    <div
+                      class="animated custom-bar progress-bar slideInLeft bg-secondary"
+                      style="width: 50%"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="70"
+                      role="progressbar"
+                    ></div>
+                  </div>
+                  <div class="progress-text">
+                    <div class="row">
+                      <div class="col-6">Relative Score</div>
+                      <div class="col-6 text-end">60%</div>
+                    </div>
+                  </div>
+                  <div
+                    class="custom-progress progress progress-medium"
+                    style="height: 4px"
+                  >
+                    <div
+                      class="animated custom-bar progress-bar slideInLeft bg-secondary"
+                      style="width: 60%"
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="70"
+                      role="progressbar"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <span class="section-title text-primary mb-3 mb-sm-4"
+                    >Education</span
+                  >
+                  <p>TO BE CONTINUED</p>
+                  <p class="mb-1-9"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <style type="text/css">
+      body {
+        margin-top: 20px;
+      }
+      .card-style1 {
+        box-shadow: 0px 0px 10px 0px rgb(89 75 128 / 18%);
+      }
+      .border-0 {
+        border: 0 !important;
+      }
+      .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+      }
+
+      section {
+        padding: 120px 0;
+        overflow: hidden;
+        background: #fff;
+      }
+      .mb-2-3,
+      .my-2-3 {
+        margin-bottom: 2.3rem;
+      }
+
+      .section-title {
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+      }
+      .text-primary {
+        color: #ceaa4d !important;
+      }
+      .text-secondary {
+        color: #15395a !important;
+      }
+      .font-weight-600 {
+        font-weight: 600;
+      }
+      .display-26 {
+        font-size: 1.3rem;
+      }
+
+      @media screen and (min-width: 992px) {
+        .p-lg-7 {
+          padding: 4rem;
+        }
+      }
+      @media screen and (min-width: 768px) {
+        .p-md-6 {
+          padding: 3.5rem;
+        }
+      }
+      @media screen and (min-width: 576px) {
+        .p-sm-2-3 {
+          padding: 2.3rem;
+        }
+      }
+      .p-1-9 {
+        padding: 1.9rem;
+      }
+
+      .bg-secondary {
+        background: #15395a !important;
+      }
+      @media screen and (min-width: 576px) {
+        .pe-sm-6,
+        .px-sm-6 {
+          padding-right: 3.5rem;
+        }
+      }
+      @media screen and (min-width: 576px) {
+        .ps-sm-6,
+        .px-sm-6 {
+          padding-left: 3.5rem;
+        }
+      }
+      .pe-1-9,
+      .px-1-9 {
+        padding-right: 1.9rem;
+      }
+      .ps-1-9,
+      .px-1-9 {
+        padding-left: 1.9rem;
+      }
+      .pb-1-9,
+      .py-1-9 {
+        padding-bottom: 1.9rem;
+      }
+      .pt-1-9,
+      .py-1-9 {
+        padding-top: 1.9rem;
+      }
+      .mb-1-9,
+      .my-1-9 {
+        margin-bottom: 1.9rem;
+      }
+      @media (min-width: 992px) {
+        .d-lg-inline-block {
+          display: inline-block !important;
+        }
+      }
+      .rounded {
+        border-radius: 0.25rem !important;
+      }
+    </style>
+
+    <script type="text/javascript"></script>
+
+    <div class="firstbox">
+      <center>
+        <h1>Your Publications</h1>
+      </center>
+      <!-- <span class = "span1">LOG OUT</span> -->
+    </div>
+
+    {% for item in publications %}
+
+    <section class="bg-light1">
+      <h2>{{item[1].upper()}}</h2>
+    </section>
+    {% endfor %}
+
+    <hr style="height: 5px; color: rgb(0, 0, 0)" />
+    <script type="text/javascript"></script>
+  </body>
+</html>

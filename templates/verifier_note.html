@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>verify notes</title>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body {
+            background-color: rgb(40, 40, 40);
+        }
+
+        #frame {
+            width: 100%;
+            height: 95vh;
+        }
+
+        /* another method */
+
+        #confirmation{
+            position: absolute;
+           
+            
+            transform: translate(-50% , -50%);
+            left:50%;
+            top:50%;
+            
+            background-color: rgb(84, 84, 84);
+            
+            width: 500px;
+            height: 400px;
+
+            display: none;
+            z-index: 3;
+            
+        }
+        #confirmation form{
+            display: none;
+        }
+
+        .hidden{
+            display: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <iframe id="frame" src="../static/notes/{{id}}.pdf" frameborder="0"></iframe>
+
+    <div id="controls">
+
+            <button class = "button" id="approve">APPROVE</button>
+            <button class = "button" id="reject">REJECT</button>
+
+    </div>
+
+    <div id="confirmation">
+        <form action="" id="form-approve">
+            <input type="text" name="approve" value="1" class = "hidden">
+            <input type="submit" value = "APPROVE">
+            <button class="cancel">CANCEL</button>
+        </form>
+        <form action="" id="form-reject">
+            <input type="text" name="approve" value="0" class="hidden">
+            <input type="submit" value = "REJECT">
+            <button class="cancel">CANCWL</button>
+        </form>
+    </div>
+
+    <script>
+        
+        let approve_button  = document.getElementById("approve")
+        let rejectButton = document.getElementById("reject")
+        // approve_button.addEventListener('click' , ()=>{
+            // var request = new XMLHttpRequest()
+            // request.open("POST" , location.href)
+            // let formData = new FormData();
+            // let confirmation = confirm("are u sure u want approve")
+// 
+            // formData.append("approve" , "1");
+            // if (confirmation ==  true){
+                // console.log("hiii")
+                // request.send(formData)
+            // }
+            // 
+        // });
+// 
+        
+        // rejectButton.addEventListener('cilck' , ()=>{
+            // var request = new XMLHttpRequest()
+            // request.open("GET" ,"")
+        // })
+
+        approve_button.addEventListener('click' , ()=>{
+            document.getElementById("confirmation").style.display = "block";
+            document.getElementById("form-approve").style.display = "block";
+            document.getElementById("form-reject").style.display = "none";
+        })
+
+        rejectButton.addEventListener("click" , ()=>{
+            console.log("pressed reject")
+            document.getElementById("confirmation").style.display = "block";
+            document.getElementById("form-reject").style.display = "block";
+            document.getElementById("form-approve").style.display = "none";
+        })
+
+        
+
+
+
+    </script>
+
+</body>
+
+</html>

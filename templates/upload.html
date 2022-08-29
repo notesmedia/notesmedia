@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>upload file</title>
+    <style>
+        #upload{
+            display: flex;
+            flex-direction: column;
+        }
+        .input{
+            width: 10vw;
+        }
+        #submit{
+            width: 10vh;
+        }
+        
+        #upload *{
+            margin : 10px 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <form action="" method="POST" id="upload"  enctype="multipart/form-data">
+        <input type="file" name="file" class = "input">
+        <input type="text" placeholder="title" name="title" class = "input">
+        <input type="number" placeholder="price" name="price" class = "input">
+        <input type="text" placeholder="email" name="email" class = "input">
+        <input type="text" placeholder="subject" name="subject" class = "input">
+        <textarea name="desc" id="" cols="30" rows="10"></textarea>
+
+        <input type="submit" id="submit">
+        
+    
+    </form>
+    
+</body>
+</html>

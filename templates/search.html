@@ -1,5 +1,3 @@
-
-
 {% extends "layout.html" %}
 
 
@@ -8,15 +6,30 @@
 {% endblock %}
 
 {% block main %}
-<div id="allresults"> 
+<div id="allresults">
     {% for item in data%}
+
+
     <div class="singleresult">
 
-        <a href="/preview/{{ item[1] }}">{{item[1]}}</a>
-        <h4>{{ item[2] }}</h4>
-        <h4>{{ item[4] }}</h4>
+        <div id="imagediv">
+            <img src="../static/thumpnails/{{item[0]}}.png" alt="image kanunilla" id="thumpnail">
+            <img src="../static/profile_pics/{{item[4]}}.png" alt="" id="profile_pic">
+        </div>
+
+        <div id="details">
+
+            <a href="/preview/{{ item[0] }}">{{item[1]}}</a>
+            <h4 class="text">₹ {{ item[2] }}</h4>
+            <h4 class="text">{{ item[3] }}</h4>
+            <button id="view">VIEW</button>
+            
+        </div>
+        
 
     </div>
+
+
     {% endfor %}
 </div>
 
@@ -28,7 +41,7 @@
         <form action="/search" method="GET" class="button">
             <input type="hidden" name="q" value="{{search}}">
             <input type="hidden" value={{page-1}} name="page">
-            <input type="submit" value="Previous" }>
+            <input type="submit" value="Previous" } class="button">
         </form>
 
         {% endif %}
@@ -36,10 +49,10 @@
         {% for button in buttons[:-1] %}
 
 
-        <form action="/search" method="GET" class="button">
+        <form action="/search" method="GET">
             <input type="hidden" name="q" value="{{search}}">
             <input type="hidden" value={{button}} name="page">
-            <input type="submit" value={{button}}>
+            <input type="submit" value={{button}} class="button">
         </form>
 
         {% endfor %}
@@ -49,7 +62,7 @@
         {% if page+1 < last_page%} ... <form action="/search" method="GET" class="button">
             <input type="hidden" name="q" value="{{search}}">
             <input type="hidden" value={{last_page}} name="page">
-            <input type="submit" value={{last_page}}>
+            <input type="submit" value={{last_page}} class="button">
             </form>
 
             {% endif %}
@@ -59,7 +72,7 @@
             <form action="/search" method="GET" class="button">
                 <input type="hidden" name="q" value="{{search}}">
                 <input type="hidden" value={{page+1}} name="page">
-                <input type="submit" value="NEXT">
+                <input type="submit" value="NEXT" class="button">
             </form>
 
             {% endif %}
