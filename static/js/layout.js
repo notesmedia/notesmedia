@@ -1,38 +1,79 @@
-console.log("started")
-let cookies = document.cookie.split("; ") ;
 
-console.log(document.cookie)
+let cookie = document.cookie.split("; ");
 
-let email = "";
-let password = "";
+console.log(cookie )
 
-cookies.forEach((item)=>{
-    let key_value_pair  = item.split("=");
+
+cookies = {}
+
+cookie.forEach((item) => {
+    let key_value_pair = item.split("=");
 
     console.log(key_value_pair)
 
-    if(key_value_pair[0] == "email"){
-        email = key_value_pair[1].substring(1 , key_value_pair[1].length - 1)
-    }
-    else if(key_value_pair[0] == "password"){
-        password = key_value_pair[1]
-    }
-    console.log("the email is "+email);
-    console.log("the password is "+password);
+    cookies[key_value_pair[0]] =  key_value_pair[1];
 
 });
+console.log("the cookies are " + cookies)
+
+
 
 let sigin = document.getElementById("signinbutton");
 let signedin = document.getElementById("signed_in");
 let email_label = document.getElementById("email");
 
-if(email != "" &&  password != ""){
+if ("email" in cookies && "password" in cookies) {
     console.log("sidned in")
     sigin.remove();
-    email_label.innerText = email;
+    let email =  cookies.email;
+    email = email.replace('"' , '')
+    // email_label.innerText = email;
 
 }
-else{
+else {
     console.log("not signed in")
     signedin.remove();
 }
+
+//================== code for showing and unshowing navbar===========================
+
+let show_nav = document.getElementById("show_navbar");
+let nav_list = document.getElementById("navbar");
+let nav_list_items = document.querySelector("#navbar li")
+let black_space = document.getElementById("allblack")
+
+
+
+
+show_nav.addEventListener('click', (event) => {
+
+
+    
+    console.log("gonna show it");
+    nav_list.style.animation = "navbar_entry 0.5s";
+    // nav_list.style.display = "flex";
+    // black_space.style.display = "block";
+    nav_list.classList.add("active")
+    black_space.classList.add("active")
+    
+
+})
+
+black_space.addEventListener("click", (event) => {
+    console.log("gonna hide it");
+    // nav_list.style.animationPlayState = "running";
+    // nav_list.style.animation = "navbar_exit";
+    // nav_list.style.display = "none";
+    // black_space.style .display = "none";
+    nav_list.classList.remove("active")
+    black_space.classList.remove("active")
+});
+
+
+// ================== fuctions of buttons
+
+
+
+
+
+

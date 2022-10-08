@@ -1,75 +1,356 @@
-html{
+:root {
+    --background: rgb(248, 249, 253);
+    --shadox: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    --theme1_blue: rgb(16, 137, 255);
+    --theme2_blue: rgb(0, 63, 126);
+}
+
+
+html {
     min-width: fit-content;
 
 }
-body{
-    background-color: rgb(245, 245, 245);
+
+
+
+body {
+    background-color: var(--background);
     width: fit-content;
     margin: 0px;
     padding: 0px;
 }
-*{
-    font-family:sans-serif;
-}
-header { 
-    display: hidden;
+
+* {
+    font-family: sans-serif;
 }
 
-#email{
+#title {
+    color: var(--theme2_blue);
+}
+
+header {
+    z-index: 1;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 8vh;
+    /* background-color: red; */
+
+}
+
+#profile {
+    height: 6vh;
+    border-radius: 100%;
+    /* border: 5px solid black; */
+
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+#allblack {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 200vh;
+    background-color: black;
+    opacity: 0.2;
+}
+
+#search-box {
+    border: 0px;
+}
+
+#search-button {
+    background-image: url("../res/search.png");
+    background-color: transparent;
+    background-size: cover;
+    /* background-color: red; */
+    width: 20px;
+    height: 20px;
+    border: 0px;
+    margin: 2px;
+
+}
+
+#search-form {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid blue;
+    padding: 2px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#show_navbar {
+    display: none;
+}
+
+#search-box:focus {
+    border: 0px;
+    outline: none;
+
+}
+
+#links {
+    display: flex;
+    flex-direction: row;
+}
+
+
+#email {
     width: 50px;
 }
 
-#signin{
+#signin {
     display: flex;
-    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 
 }
 
-#signed_in{
+.profile_pic {
+
+
+
+    height: 6vh;
+    width: 6vh;
+    border-radius: 100%;
+    border: 3px solid black;
+    animation: navbar_button_entry 0.5s;
+
+}
+
+#signinbutton {
+    /* background-image:  url("{{ url_for('static' , filename  = 'static/res/profile.png') }}"); */
+    background-image: url("../res/profile.png");
+    background-size: cover;
+
+
+}
+
+
+#signed_in {
     padding: 10px;
-    background-color: red;
+    /* background-color: red; */
+    width: 50px;
+    height: min-content;
+    overflow: hidden;
 }
 
-#signinmenu{
+#signinmenu {
     display: none;
-
-}
-
-#signed_in:hover #signinmenu{
-    
-    background-color: white ; 
-    display:block;
     position: absolute;
+    width: 15vw;
+    left: 90vw;
 
+}
+
+#signed_in:hover #signinmenu {
+
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    left: 90vw;
+    width: 10vw;
     top: 100%;
-    
-    animation: dropdown 1s;
+
+    animation: dropdown 0.2s;
     animation-timing-function: ease-out;
-    height: 200%;         
+    height: 10vh;
 }
 
-@keyframes dropdown{
-    0%{
-        height: 0%;
-    }
-    100%{
-        height: 200%; 
-
-    }
-}
-
-#signed_in :hover body{
-    background-color: red;
-}
-
-#signinmenu ul{
-    list-style: none;
-    height: auto;
-    
-}
-#signinmenu ul li{
-    text-decoration: none;
+#signinmenu li {
+    background-color: var(--theme1_blue);
+    color: white;
+    animation: fadein 0.4s;
+    font-size: 100%;
     padding: 10px 5px;
     display: block;
     overflow: hidden;
+}
+
+#signinmenu li:hover {
+    background-color: var(--theme1_blue);
+    color: white;
+}
+
+@keyframes dropdown {
+    0% {
+        height: 0%;
+    }
+
+    100% {
+        height: 10vh;
+
+    }
+}
+
+
+#signinmenu ul {
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
+}
+
+
+/* hiding stuff */
+#navbar.active {
+    display: flex;
+}
+
+#allblack.active {
+    display: block;
+}
+
+@keyframes navbar_entry {
+    0% {
+        width: 0px;
+        /* opacity: 0; */
+    }
+
+    100% {
+        width: 40vw;
+        /* opacity: 1; */
+    }
+}
+
+
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@media (min-width : 100vh) {
+    #navbar {
+        display: flex;
+    }
+
+    #allblack {
+        display: none;
+
+
+    }
+}
+
+
+@media(max-width: 100vh) {
+    #navbar {
+
+        position: relative;
+        float: left;
+
+        flex-direction: column;
+        width: 40vw;
+        height: 1000px;
+        color: rgb(0, 0, 0);
+        background-color: rgb(255, 255, 255);
+        animation: navbar_entry 0.5s;
+        position: fixed;
+        top: 0vh;
+        display: none;
+        align-items: center;
+        padding: 0px;
+        align-items: flex-start;
+        box-shadow: var(--shadox);
+
+    }
+
+    #links {
+        flex-direction: column;
+        /* background-color: red; */
+        padding: 0px;
+        width: 100%;
+
+    }
+
+    #links li {
+        position: relative;
+        width: 100%;
+        margin: 0px;
+        animation: fadein 0.5s;
+        /* padding : 10px 20px; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bolder;
+        height: 5vh;
+        /* background-color: green; */
+        font-size: 1.3rem;
+    }
+
+    #links li:hover {
+        background-color: blue;
+        color: white;
+    }
+
+    #allblack {
+        display: none;
+    }
+
+    #signin {
+        /* background: red; */
+        display: flex;
+        width: 100%;
+        margin: 10px 0px;
+
+    }
+
+    #show_navbar {
+        display: inline;
+        position: absolute;
+
+    }
+
+    #signinbutton {
+        margin: auto;
+    }
+
+    #signed_in {
+        background-color: green;
+    }
+
+    #signed_in:hover {
+        background-color: red;
+    }
+
+    #signed_in:hover #signinmenu {
+
+        background-color: blue;
+        display: block;
+        align-items: center;
+        justify-content: center;
+
+        /* position: absolute; */
+        /* left: 0px; */
+        /* top: 100%; */
+
+        /* animation: dropdown 0.5s; */
+        /* animation-timing-function: ease-out; */
+        height: 100vh;
+        width: 100vw;
+
+    }
 }

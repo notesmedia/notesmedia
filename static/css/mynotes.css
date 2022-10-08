@@ -1,18 +1,51 @@
 #allnotes{
     display: grid;
     grid-template-columns: repeat(auto-fit , minmax(300px , 350px));
-    margin: 10% 10%;
-    justify-content: center;
+    margin-top: 10% ;
+
+    margin-left: 5vw;
+    /* align-self: center; */
+    padding: 10px;
+    justify-content: left;
+    /* background-color: red; */
+    width: 90vw;
+    
     
 }
 
-#singlenote{
+.singlenote{
     background-color: rgb(249, 249, 249);
     box-shadow: 0px 0px 10px 1px rgb(228, 228, 228);
-    width: 200px;
-    height: 300px;
+    width: 300px;
+    height: 450px;
     margin: 10px;
     padding: 10px;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    font-size: 1.3rem;
+        
+    background-color:  rgb(255,255,255);
+    margin: 25px;
+    padding: 15px;
+    box-shadow:  var(--shadox); 
+    color: rgb(16,137,255);
+    transition: 0.5s;
+    
+
+    
+}
+#imagediv{
+    height: 75%;
+    
+}
+
+.thumpnail{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: 0px 10%;
+    
+    
 }

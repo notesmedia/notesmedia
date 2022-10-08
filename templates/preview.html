@@ -40,7 +40,14 @@
 
 
 
-            <form action="/preview/{{data[0]}}/purchase_complete" id="buy-now">
+            <form action="/complete_purchase" id="buy-now" method = "POST">
+              
+                <input type="hidden" name= "type" value="{{type}}">
+               
+               
+                <input type="hidden" name= "note" value="{{data[0]}}">
+       
+
                 <input type="submit" value="BUY NOW">
             </form>
 

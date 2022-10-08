@@ -5,64 +5,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/variables.css">
     <link rel="stylesheet" href="../static/css/navbar.css">
     <link rel="stylesheet" href="../static/css/layout.css">
-
 
     <title>NotesMedia</title>
     {% block head %}
     {% endblock %}
-</head>
+    <header>
+
+
 
 <body>
+    <h2 id="title">NotesMedia</h2>
+    <form action="/search" , method="get" id="search-form">
+        <input type="text" id="search-box" name="q">
+        <input type="hidden" name="page" value="1">
+        <input type="submit" id="search-button" value="">
+    </form>
+    <button id="show_navbar">show</button>
+    <div id="allblack"></div>
 
-    <header>
-        <h2 id="title">NotesMedia</h2>
-        <nav>
-            <form action="/search" , method="get">
-                <input type="text" id="search-box" name="q">
-                <input type="hidden" name="page" value="1">
-                <input type="submit" id="search-button" value="Search">
-            </form>
-
-
-        </nav>
-
-        <ul id="links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/mynotes">my notes</a></li>
-            <li><a href="/publisher_portal">sell notes</a></li>
+    <div id="navbar">
 
 
-        </ul>
+
 
         <div id="signin">
-            <a href="/sign_in" id="signinbutton">SIGN IN</a>
+            
+            <a href="/sign_in" id="signinbutton" class = "profile_pic">
+                <!-- <img src="{{url_for('static' , filename = 'res/profile.png')}}" alt="" id="profile"> -->
+            </a>
 
-            <div id="signed_in">
-                <span id="email">email</span>
-
+            <div id="signed_in">    
+                
+                <img src = "{{url_for('static' , filename = 'res/profile.png')}}" alt="" class="profile_pic">
+                <!-- <span id="email">email</span> -->
                 <div id="signinmenu">
                     <ul>
-                        <li>my profile</li>
-                        <li>switch account</li>
-                        <li>sign out</li>
+                       
+                        <a href="/signout">SIGNOUT</a>
                     </ul>
                 </div>
             </div>
 
         </div>
 
+        <ul id="links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/mynotes">my notes</a></li>
+            <li><a href="/publisher">sell notes</a></li>
+
+
+        </ul>
+
+
+    </div>
+
     </header>
 
 
-    
+
     {% block main %}
     {% endblock %}
 
     <script src="{{ url_for('static' , filename = 'js/layout.js') }}"></script>
 
-    
+
 </body>
 
 </html>

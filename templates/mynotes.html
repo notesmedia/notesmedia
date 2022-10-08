@@ -7,14 +7,59 @@
     {% block main %}
         <div id="allnotes">
             {% for item in data%}
-            <div id="singlenote">
-                <a href = "/mynotes/{{item[0]}}">{{item[1]}}</a>
-                <h3>{{item[2]}}</h3>
+            
+
                 
-            </div>
+                
+                
+                
+
+                <div class="singlenote">
+
+                    <form action="/noteviewer">
+                        <input type="hidden" name="note" value="{{item[0]}}">
+                        <input type="submit" class="submit_note" value =""  style="display: none;">
+                    </form>
+        
+                    <div id="imagediv">
+                        <img src="../static/thumpnails/{{item[0]}}.png" alt="image kanunilla" class="thumpnail">
+                       
+                    </div>
+        
+                    <div id="details">
+        
+                        <h3 id="title">{{item[1].upper()}}</h3>
+                        <h4 class="text">{{ item[2] }}</h4>
+        
+                    </div>
+        
+        
+                </div>
+          
             {% endfor %}
         </div>
-    {% endblock %}
+   
+
+    <script>
+        console.log("the code started")
+        let elements = document.getElementsByClassName("singlenote");
+        
+        Array.from(elements).forEach((element, index) => {
+
+            let submit_button = element.getElementsByClassName("submit_note")[0];
+            console.log(submit_button , index);
+            element.addEventListener('click', () => {
     
-</body>
-</html>
+                console.log("clicked")
+                submit_button.click()
+    
+            })
+        })
+    
+    </script>
+
+{% endblock %}
+    
+
+
+

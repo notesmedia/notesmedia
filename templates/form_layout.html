@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Publisher Login</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+     <!-- <link -->
+       <!-- rel="stylesheet" -->
+       <!-- href="{{ url_for('static' , filename = 'css/style.css')}}" -->
+     <!-- /> -->
+
+
+     <link rel="stylesheet" href="../static/css/variables.css">
+  </head>
+  <body>
+
+    <style>
+      html{
+        height: 100%;
+      }
+      body{
+        padding: 0px;
+        margin: 0px;
+        height: 100%;
+        background-color: #f8f9fd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container{
+        background-color: white;
+        box-shadow:rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        height: 50vh;
+        width: 80vw;
+        padding: 5%;
+      }
+      .container input{
+        width: 100%;
+        font-size: large;
+        height: 20px;
+        margin: 10px;
+      }
+      .submit{
+        background-color: #1089ff;
+        border: 0px ;
+        color: white;
+      }
+      
+    </style>
+    <section class="ftco-section">
+      <div class="container">
+
+          
+              {% block body %} {% endblock %}
+
+      </div>
+    </section>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

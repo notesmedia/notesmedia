@@ -1,0 +1,111 @@
+{% extends "form_layout.html" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="{{url_for('static' , filename = 'css/publish_doc.css')}}">
+
+
+
+<div id="allblack"></div>
+<div id="select_note_box">
+
+	{% for note in notes %}
+	<div class="single_select_note">
+
+		<span style="display: none;" id="select_note_id">{{note[0]}}</span>
+		<img src="static/thumpnails/{{note[0]}}.png" alt="image kitttila">
+		<h4>{{note[1].upper()}}</h4>
+
+
+	</div>
+	{% endfor %}
+
+</div>
+
+
+<section id = "main">
+<form action="/publish" class="login-form" id="form" method="POST" enctype="multipart/form-data">
+
+
+	<input type="text" name="package_name" placeholder="title" required>
+	<textarea name="package_description" id="package_desc" cols="30" rows="10" required
+		placeholder="description"></textarea>
+
+
+	<div id=all_notes>
+
+		<div id="single_note" class="single_note">
+
+
+			<select name="type" id="type">
+
+				<option value="1">new note</option>
+				<option value="2"> from existing</option>
+
+			</select>
+
+			<div class="new_note">
+				<div class="form-group d-flex">
+
+					<!-- <input type="hidden" name="type1" value="1" id="type"> -->
+
+					<input type="text" id="title" class="form-control rounded-left" placeholder="Publication Title"
+						name="title" />
+				</div>
+
+				<div class="form-group d-flex">
+					<input type="text" id="subject" class="form-control rounded-left" placeholder="Domain Subject"
+						name="subject" />
+				</div>
+
+				<div class="form-group d-flex">
+					<textarea id="about" name="about" rows="4" cols="50" placeholder="about"></textarea>
+				</div>
+
+				<div class="form-group d-flex">
+					<input type="file" id="file" class="form-control rounded-left" placeholder="Publication"
+						name="file" />
+				</div>
+			</div>
+
+			<div class="from_existing">
+
+
+				<button id="select_note_button">select</button>
+				<input type="hidden" value="" id="selected_note_id" name="note_id" disabled>
+
+				<div id="selected_note"></div>
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+	<div id="controls">
+
+		<button id="add">ADD</button>
+
+		<input type="hidden" name="number_of_upload" value="1" id="number_of_upload">
+
+		<button id="upload_button">Upload</button>
+	</div>
+
+	</div>
+</form>
+
+
+</section>
+
+<script src="{{url_for('static' , filename = 'js/publish.js' )}}"></script>
+<!-- <script src="static/js/publish.js" ></script> -->
+
+
+
+{% endblock %}

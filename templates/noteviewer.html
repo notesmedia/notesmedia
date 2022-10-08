@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<!-- <link rel="stylesheet" href="url_for('static' , 'css/viewnote.css')"> -->
+<link rel="stylesheet" href="../static/css/noteviewer.css">
+{% endblock %}
+
+
+{% block main %}
+<div id="viewer">
+    <!-- <embed src= " {{url_for('static' , filename = 'notes/haloalkanes.pdf')}} "  width="800px" height="800px" /> -->
+
+    <embed src="static/notes/{{data[0]}}.pdf#toolbar=0&view=Fit&scrollbar=0  " type="" id="viewer">
+    <!-- <iframe src="https://docs.google.com/gview?url=static/notes/1.pdf&embedded=true"></iframe> -->
+
+        
+        
+
+    <script>
+      
+        var comments_initial = "{{comments}}".replaceAll("&#34;" , '"');
+        var reply_numbers = '{{reply_numbers}}'.replaceAll("&#34;" , '"');
+
+        console.log(comments_initial)
+        console.log(reply_numbers)
+
+        comments_initial = JSON.parse(comments_initial);
+        
+        reply_numbers = JSON.parse(reply_numbers) ;
+        console.log("here")
+        
+    </script>
+
+
+
+    <section id="downportion">
+        <div id="comment_section">
+
+
+
+            <input type="hidden" name="note_id" value="{{data[0]}}" id="notename">
+            <input type="text" id="comment_box">
+            <button id="submit_comment">SUBMIT</button>
+
+
+            <div id="comments" >
+
+                <div  id="template_comment" style="display: none;">
+                    <input type="hidden" class ="comment_id" value="">
+                    <div class="commenter_image"></div>
+                    <div class="comment_details">
+                        <span class="top-row">
+                            <span class="username"></span>
+                            <span class="date"></span>
+                        </span>
+                        
+                        <span class="commentText"></span>
+                        <div id="like_and_reply">  
+                            <button class="reply">reply</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div id="divider" style="display: none;">
+                    <button id="backToComments">back</button>
+                    <span class = "dividerline"></span>
+                    <span>replys</span>
+                    <span class = "dividerline"></span>
+                </div>
+
+
+            </div>
+
+            <div id="reply_section">
+                
+                
+                <div id="replys">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="details">
+            <h2>{{data[1].upper()}}</h2>
+            <div id="publisher_details">
+                <h4>{{data[5]}}</h4>
+                <img src="static/profile_pics/{{data[6]}}.png" alt="profile_pic" id="profile_pic">
+            </div>
+            <div id="description">
+            </div>
+
+            <div id="rating_system">
+              <img src="static/res/star_white.svg" alt="star_image" class="star">
+              <img src="static/res/star_white.svg" alt="star_image" class="star">
+              <img src="static/res/star_white.svg" alt="star_image" class="star">
+              <img src="static/res/star_white.svg" alt="star_image" class="star">
+              <img src="static/res/star_white.svg" alt="star_image" class="star">
+            </div>
+
+        </div>
+    </section>
+
+    <script src="{{url_for('static' , filename  = 'js/noteviewer.js')}}"></script>
+
+
+</div>
+{% endblock %}

@@ -4,6 +4,7 @@ html{
 }
 body{
     width: 100%;
+    background-color: --background;
     
 }
 #allresults{
@@ -15,31 +16,88 @@ body{
     
 }
 
+.tile{
+    overflow: visible;
+    /* color: red; */
+}
+
 .singleresult{
 /*      */
-
+    border-radius: 10px;
     font-size: 1.3rem;
-    height: 400px; 
-    background-color: rgb(254, 254, 254);
-    margin: 25px;
-    box-shadow: 0px 0px 10px 1px rgb(193, 193, 193);
+    height: 380px; 
     
+    background-color:  rgb(255,255,255);
+    margin: 25px;
+    /* padding: 15px; */
+    box-shadow:  var(--shadox); 
+    color: rgb(16,137,255);
+    transition: 0.5s;
     
 }
 
+
+.singleresult:hover{
+    /* position: relative; */
+    transform: scale(1.1);
+    animation-timing-function: linear;
+    
+    
+    
+}
+/* .singleresult:hover{ */
+    /* animation: popup 0.3s ; */
+    /* animation-timing-function: linear; */
+    /* animation-direction: reverse; */
+/* } */
+
 #imagediv{
+    
     height: 50%;
     
 }
+.title{
+    color: blue;
+    /* background-color: red; */
+    text-align: center;
+    font-weight:bold
+    
+}
 
+.publisher_details{
+    /* background-color: red; */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+;
+}
 
-#profile_pic{
-    height: 30%;
-    width: same-as-height;
-    border-radius: 100%;
+.publisher_username{
+    font-size:17px;
+}
+
+.downdetails{
+    border-top: 1px solid rgb(244, 244, 244);
     position: relative;
-    top: -20%;
-    left: 70%;
+    bottom: -30px;
+    padding: 10px;
+    display: flex;
+    margin: 0px;
+    align-items: center;
+    justify-content: right;
+    background-color: red;
+}
+
+
+.profile_pic{
+    height: 5%;
+    width: same-as-height;
+    margin-right: 10px;   
+    border: 0px ;
+    border-radius: 100%;
+    /* position: relative; */
+    /* top: -20%; */
+    /* left: 2%; */
 }
 
 
@@ -80,7 +138,7 @@ body{
     background-color: transparent;
     border: 2px solid blue;
     color: blue;
-    bottom: 10%;
+    bottom: 0%;
     
     
 }
@@ -97,6 +155,10 @@ body{
 
 
 #pagechange{
+    position: absolute;
+   
+    width: 100%;
+    /* top: 100px; */
     background-color: rgb(243, 243, 243);
     align-items: center;
     justify-content: center;
@@ -106,12 +168,13 @@ body{
 #pagechangebox{
     /* background-color: blue; */
     justify-content: center;
-    margin: auto;
+    align-items: center;
+
     display: flex;
-    padding: 10px;
-    width: 500px;
-    /* height: 10px; */
     flex-direction: row;
+
+    /* padding: 10px;    */
+    /* width: 500px;     */
 
 }
 
