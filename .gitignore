@@ -1,1 +1,4 @@
 .sync
+.vscode
+some_use_less_code
+_pycache_
