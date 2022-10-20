@@ -29,3 +29,4 @@ def create_thumpnail(file="" , override = False):
 
 if __name__ == "__main__":
     create_thumpnail(override= True)
+    print("this is latest")
