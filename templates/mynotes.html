@@ -7,17 +7,18 @@
     {% block main %}
         <div id="allnotes">
             {% for item in data%}
-            
-
-                
-                
-                
-                
 
                 <div class="singlenote">
 
                     <form action="/noteviewer">
+                        {% if item[3] == 'n' %}
                         <input type="hidden" name="note" value="{{item[0]}}">
+                        {% endif %}
+
+                        {% if item[3] == 'p' %}
+                        <input type="hidden" name="package" value="{{item[0]}}">
+                        {% endif %}
+
                         <input type="submit" class="submit_note" value =""  style="display: none;">
                     </form>
         
@@ -29,7 +30,9 @@
                     <div id="details">
         
                         <h3 id="title">{{item[1].upper()}}</h3>
-                        <h4 class="text">{{ item[2] }}</h4>
+
+                        
+                        <!-- <h4 class="text">{{ item[2] }}</h4> -->
         
                     </div>
         

@@ -1,39 +1,26 @@
 
 
+
 from flask import Flask , render_template , request , redirect , make_response, request_started, session , json
 import mysql.connector 
-import math 
-
-import os 
-
-from socket import gethostname 
+import math
 
 import utilities
 import json
+import razorpay
 
-
-expiry = 60*60*24*365
-
-name =  gethostname()
-
-if name == 'navadeep':
-    db = "notemedia2"
-    password = 'navadeepnasa1295'
-elif name == 'ACER':
-    db = "notesmedia"
-    password = "ashvin2004"
-
+client = razorpay.Client(auth=("rzp_test_Rzk0yIJJVLvjgn", "NG7em3kEJJcOTjYrhZZrjreP"))
 
 
 
 #some_varliabes 
-max_results = 5
+max_results = 100
 
 connection = mysql.connector.connect(
     host = "localhost",
-    user = 'root',
-    password =   password ,
-    db = db
+    user = "root",
+    password =  "navadeepnasa1295",
+    db = "notemedia2"
 )
 
 cursor = connection.cursor( buffered=True)
@@ -55,7 +42,7 @@ def  publisher_portal_page():
     
 
         res =  make_response(redirect("/sign_in"))
-        session["next_path" ] = "/publisher"
+        res.set_cookie("next_path", "/publisher_portal")
         return res
     cursor.execute(f"SELECT * FROM users WHERE email = '{id}'")
     
@@ -66,9 +53,7 @@ def  publisher_portal_page():
         if data[4] == 1:
             cursor.execute(f"SELECT * FROM notes WHERE publisher_id = '{data[0]}'")
             publications = cursor.fetchall()
-            cursor.execute(f"SELECT * FROM packages WHERE publisher_id = '{data[0]}'")
-            packages = cursor.fetchall()
-            print(packages)
+            
             print(publications) 
             x = len(publications)
             print(x)
@@ -84,7 +69,7 @@ def  publisher_portal_page():
             session["data"] = data
 
 
-            return  render_template("publisher_portal.html" , packages = packages , data = data , publications = publications, id = data[0], x= x , rno = area, total_publication = len(publications))
+            return  render_template("publisher_portal.html" ,  data = data , publications = publications, id = data[0], x= x , rno = area, total_publication = len(publications))
         else:
             return(redirect("/publisher_form"))
    
@@ -216,7 +201,6 @@ def verify_login(request, session):
 
 @app.route("/")
 def home():
-    print("hereeee")
     print("the session data is" , dict(session))
     return render_template("home.html" )
 
@@ -244,67 +228,103 @@ def search():
     print(len(data))
     print(total_pages)
 
-    if page > total_pages:
-        page = total_pages 
-    elif page < 1:
-        page = 1
-
     if len(data[ (page-1)*max_results :]) > max_results:
         data = data[ (page-1)* max_results : page*max_results]
     else:
         data = data[(page-1)*max_results:]
     
 
-    # buttons = []
-    # if page != 1:
-        # buttons.append(page-1)
-    # buttons.append(page)
-    # if page!=total_pages:
-        # buttons.append(page+1)
-    # 
-    # buttons.append(total_pages)
-# 
-    # print(buttons)
+    buttons = []
+    if page != 1:
+        buttons.append(page-1)
+    buttons.append(page)
+    if page!=total_pages:
+        buttons.append(page+1)
+    
+    buttons.append(total_pages)
 
+    print(buttons)
     
 
-    return render_template("search.html" , data = data, page = page , search = search , current_page = page, last_page = total_pages)
+    return render_template("search.html" , data = data, page = page , search = search , buttons = buttons , last_page = total_pages)
 
-@app.route("/preview")
+@app.route("/preview" , methods = ["GET" , "POST"])
 def preview():
 
 
 
-    print(request.args.get("package"))
+    # print(request.args.get("package"))
 
-    if request.form.get("note") != None:
+    if request.method == "POST":
+        print(request.form)
+        success  = client.utility.verify_payment_signature(dict(request.form))
+        if success:
+            print("success")
+            
+            details = client.order.payments(request.form.get("razorpay_order_id"))
+            print(details)
+            
+            notes = details.get('items')[0].get("notes")
+            print("the notes are " , notes)
+            query =  f"insert into purchases values(default , { notes['id']} , {session.get('user_id')} , now() , 0 , '{notes['type']}')"
+            cursor.execute(query)
+            connection.commit()
+          
+        else:
+            print("failure")
+        
+        return "all done"
+
+    
+
+    if request.args.get("note") is not None:
         type = 1
+        object_id = request.args.get("note")
         query = f"""select note_id , title , price , subject , notes.publisher_id , users.username   , notes.description 
             from notes,users
             where users.user_id = notes.publisher_id and
-            note_id = '{request.args.get("note")}' """
+            note_id = {object_id} """
 
     else:
         type = 2
+        object_id = request.args.get("package")
         query = f"""select package_id , package_name , package_price , "" as subject , publisher_id , users.username   , package_description
             from packages,users
             where users.user_id = packages.publisher_id and
-            package_id = '{request.args.get("package")}' """
+            package_id = {object_id} """
 
 
-
- 
-    
-    
     cursor.execute(query)
     data =  cursor.fetchall()[0]
 
-    # cursor.execute(f"select count(rating) from purchases where note_id = {id}")
-    # rating = cursor.fetchone()[0]
+    cursor.execute(f"select note_id from purchases where user_id = {session.get('user_id')} and note_id = {object_id}")
+    
+    
+    if len(cursor.fetchall()) != 0:
+        pre_owned =  True 
+        payment = {}
+    else:
+        pre_owned =  False
+        details = {
+        "amount": 500,
+        "currency": "INR",
+        "payment_capture":'1',
+        "notes":{
+            "user_id":f"{session.get('user_id')}",
+            "id": data[0]
+            
+        }
+        }
+        if type == 1:
+            details["notes"]["type"] = "n"
+        elif type == 2:
+            details["notes"]["package_id"] = "p"
+
+        payment = client.order.create(data=details)
+        print(payment)
 
     print(data)
-    # print(rating)
-    return  render_template("preview.html" , data = data , rating = 0 , type = type )
+    return  render_template("preview.html" , data = data , rating = 0 , type = type , pre_owned = pre_owned , payment = payment)
 
 @app.route("/sign_in" , methods = ["GET", "POST"])
 def sign_in(  ):
@@ -333,7 +353,7 @@ def sign_in(  ):
             response = make_response(redirect(next_path ))   
 
             response.set_cookie("email" , email)
-            response.set_cookie("password" , password )
+            response.set_cookie("password" , password)
             session["signed_in"] =  True
             session["user_id"] = data[0]
             session["username"] = data[2]
@@ -341,50 +361,7 @@ def sign_in(  ):
             return response
         
     
-    return render_template("sign_in_temp.html" ,warning = ""  )
-
-
-
-@app.route("/otppage" , methods = ["GET","POST"])
-def checker():
-    username = request.form.get("username")
-    grade12 = request.form.get("grade12")
-    print(username)
-    print(grade12)
-    email = request.form.get("email")
-    password = request.form.get("password")
-    print(password)
-    repassword = request.form.get("repassword")
-    print(repassword)
-    import os
-    import math
-    import random
-    import smtplib
-
-    digits="0123456789"
-    OTP=""
-    for i in range(6):
-        OTP+=digits[math.floor(random.random()*10)]
-    otp = OTP + " is your OTP"
-    msg= otp
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
-    s.login("ashvinpkumar2004@gmail.com", "fyrnczbqjptbtrwy")
-    emailid = email
-    s.sendmail('&&&&&&&&&&&',emailid,msg)
-    a = input("Enter Your OTP >>: ")
-    if a == OTP:
-        print("Verified")
-    else:
-        print("Please Check your OTP again")
-
-    if email!= None and password == repassword:
-
-
-        return render_template("otpchecker.html")
-    else:
-        return render_template("sign_up.html")
-
+    return render_template("sign_in.html" ,warning = ""  )
 
 @app.route("/sign_up" , methods = ["GET","POST"])
 def sign_up():
@@ -405,14 +382,13 @@ def sign_up():
                 
                 next_path  = session.get("next_path")
                 
-                #username = session["signup_username"]
-                #email = session["signup_email"]
-                #password  = session["signup_password"]
-#
+                username = session["signup_username"]
+                email = session["signup_email"]
+                password  = session["signup_password"]
+
                 
 
                 cursor.execute(f"INSERT INTO users VALUES ( default , '{email}','{password}', '{username}', false ,null, null, null)")
-                cursor.execute(f"INSERT INTO users VALUES ( default ,  false ,null, null, null)")
                 connection.commit()
 
                 if next_path is  None:
@@ -502,12 +478,22 @@ def purchase_complete():
 def mynotes():
     if verify_login(request , session):
         user_id = session.get("user_id")
-        command = f"""select  notes.note_id, title , subject  
-                      from purchases,  users , notes  
-                      where purchases.user_id =  users.user_id and 
-                      users.user_id = '{user_id}' and
-                      purchases.note_id = notes.note_id
-                      """
+        command = f"""select notes.note_id , title , date_and_time , type
+                     from purchases , notes 
+                     where purchases.note_id =  notes.note_id 
+                     and purchases.user_id = {session.get('user_id')}
+                     and type = "n"
+                     union 
+                     select packages.package_id , package_name  , date_and_time , type
+                     from purchases , packages 
+                     where purchases.note_id = packages.package_id
+                     and purchases.user_id = {session.get('user_id')}
+                     and type = "P"
+                     order by date_and_time
+                """
+                  
+                  
+                  
 
         cursor.execute(command)
         data = cursor.fetchall()
@@ -607,17 +593,15 @@ def verifier_single_note(id):
             return render_template("verifier_note.html")
     return redirect("/verifier")
 
-
-
-
-
 @app.route("/noteviewer" , methods = ["GET" ,"POST"])
 def noteviewer():
     
     requestType = request.form.get("type")
+    print("--------------------")
     print(requestType)
     # form_data = json.loads(request.data)
 
+    cursor  =  connection.cursor(buffered=True)
 
 
     print("the form data is " , dict(request.form))
@@ -698,23 +682,90 @@ def noteviewer():
             
                 return "success"
 
+            elif requestType == "update":
+
+                
+                print("updating")
+
+                title = request.form.get("title")
+                description = request.form.get("description")
+
+                user_id  = session.get("user_id")
+                note_id = session.get("note_id")
+
+                print(title , description , user_id , note_id)
+
+                query =  f"update notes set title = '{title}' , description = '{description}' where note_id = {note_id}"
+
+                cursor.execute(query)
+                connection.commit()
+
+                return "done";
+                
+
                 
         else:
                 print("gonna give the page")
                 cursor = connection.cursor(buffered=True)
-                note_id = request.args.get("note")
-                
-                query1 = f"""
-                         select notes.note_id , notes.title , notes.description , subject , u.username , p.username , p.user_id
-                         from purchases , users u , notes , users p
-                         where
-                         purchases.user_id = {session.get('user_id')} and
-                         purchases.note_id = notes.note_id and
-                         notes.publisher_id = p.user_id and
-                         purchases.note_id = {note_id}
-                """
-                cursor.execute(query1)
-                note = cursor.fetchall() 
+
+                if request.args.get("note") is not None:
+
+                    note_id = request.args.get("note")
+
+                    type = "note"
+
+                    query1 = f"""
+                        select notes.note_id , notes.title , notes.description , subject , u.username , p.username , p.user_id
+                        from purchases , users u , notes , users p
+                        where
+                        purchases.user_id = {session.get('user_id')} and
+                        purchases.note_id = notes.note_id and
+                        notes.publisher_id = p.user_id and
+                        purchases.note_id = {note_id}
+                    
+                       """
+
+
+                    cursor.execute(query1)
+                    main_data = cursor.fetchall()[0]
+                    print(main_data)
+
+                    publisher_id = main_data[6]
+
+                elif request.args.get("package") is not None:
+
+                    type = "package"
+
+
+
+                    package_id = note_id = request.args.get("package")
+                    index =  request.args.get("index")
+
+                    if index is None:
+                        index = 0
+
+                    
+
+                    query1 = f"""
+                            select package_mapping.note_id , title , description , notes.subject , u.username,p.username , p.user_id ,notes.publisher_id 
+                            from packages , package_mapping , purchases , notes , users p , users u
+                            where packages.package_id =  package_mapping.package_id
+                            and purchases.user_id = u.user_id
+                            and purchases.note_id = packages.package_id 
+                            and purchases.type  = "p"
+                            and notes.note_id = package_mapping.note_id
+                            and p.user_id = notes.publisher_id
+                            and purchases.user_id = {session.get('user_id')}
+                            and packages.package_id = {package_id}
+                       """
+
+                    cursor.execute(query1)
+                    data = cursor.fetchall()
+                    print(data) 
+
+                    publisher_id = data[0][6]
+
+                    note_id = data[int(index)][0]
 
 
                 query2 = f"""
@@ -753,9 +804,20 @@ def noteviewer():
                 comments = json.dumps({"comments" : comments})
                 print(comments)
                 # print(reply_numbers)
+
+                if publisher_id == session.get("user_id"):
+                    is_publisher =  True
+                else:
+                    is_publisher = False
                 
-                if len(note) != 0:
-                     return render_template("noteviewer.html" , data = note[0] , comments = comments  , reply_numbers = reply_numbers , name='"navadee"')
+
+                if type == "note":
+                     session["note_id"] = main_data[0]
+                     return render_template("noteviewer.html" , main_data = main_data , comments = comments  , reply_numbers = reply_numbers , type = type , is_publisher = is_publisher)
+                else:
+                    print("seving package")
+                    session["note_id"]= data[int(index)][0]
+                    return render_template("noteviewer.html" , main_data = data[int(index)] , data  = data , comments = comments ,  reply_numbers = reply_numbers , type = type , length =  len(data) , package_id = package_id , is_publisher = is_publisher)
            
         
 

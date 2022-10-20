@@ -170,6 +170,8 @@ body{
     justify-content: center;
     align-items: center;
 
+    padding: 15px;
+
     display: flex;
     flex-direction: row;
 
@@ -183,6 +185,19 @@ body{
     margin: 5px;
     padding: 5px 10px;
     
-    
 
+}
+
+.page_change_form{
+    display: inline;
+}
+
+.change_button{
+    width: 100px;
+    height: 20px;
+}
+
+#current_page{
+    width: 25px;
+    /* padding: 5px; */
 }

@@ -10,101 +10,169 @@
 <div id="viewer">
     <!-- <embed src= " {{url_for('static' , filename = 'notes/haloalkanes.pdf')}} "  width="800px" height="800px" /> -->
 
-    <embed src="static/notes/{{data[0]}}.pdf#toolbar=0&view=Fit&scrollbar=0  " type="" id="viewer">
-    <!-- <iframe src="https://docs.google.com/gview?url=static/notes/1.pdf&embedded=true"></iframe> -->
 
-        
-        
+    <section id="main">
+        <div id="top_portion">
 
-    <script>
-      
-        var comments_initial = "{{comments}}".replaceAll("&#34;" , '"');
-        var reply_numbers = '{{reply_numbers}}'.replaceAll("&#34;" , '"');
+            {% if type == "package" %}
+            <div id="package_viewer">
 
-        console.log(comments_initial)
-        console.log(reply_numbers)
 
-        comments_initial = JSON.parse(comments_initial);
-        
-        reply_numbers = JSON.parse(reply_numbers) ;
-        console.log("here")
-        
-    </script>
+                {% for i in range(length) %}
+
+                <div>
+                    <form action="/noteviewer">
+                        <input type="hidden" name="package" value="{{package_id}}">
+                        <input type="hidden" name="index" value="{{i}}">
+                        <input type="submit" value="{{data[i][1]}}">
+                    </form>
+                </div>
 
 
 
-    <section id="downportion">
-        <div id="comment_section">
+                {% endfor %}
+            </div>
+
+            {% endif %}
+
+            <embed src="static/notes/{{main_data[0]}}.pdf#toolbar=0&view=Fit&scrollbar=0  " type="" id="viewer">
+        </div>
+
+        <!-- <iframe src="https://docs.google.com/gview?url=static/notes/1.pdf&embedded=true"></iframe> -->
 
 
 
-            <input type="hidden" name="note_id" value="{{data[0]}}" id="notename">
-            <input type="text" id="comment_box">
-            <button id="submit_comment">SUBMIT</button>
+
+        <script>
+
+            var comments_initial = "{{comments}}".replaceAll("&#34;", '"');
+            var reply_numbers = '{{reply_numbers}}'.replaceAll("&#34;", '"');
+
+            console.log(comments_initial)
+            console.log(reply_numbers)
+
+            comments_initial = JSON.parse(comments_initial);
+
+            reply_numbers = JSON.parse(reply_numbers);
+            console.log("here")
+
+        </script>
 
 
-            <div id="comments" >
 
-                <div  id="template_comment" style="display: none;">
-                    <input type="hidden" class ="comment_id" value="">
-                    <div class="commenter_image"></div>
-                    <div class="comment_details">
-                        <span class="top-row">
-                            <span class="username"></span>
-                            <span class="date"></span>
-                        </span>
-                        
-                        <span class="commentText"></span>
-                        <div id="like_and_reply">  
-                            <button class="reply">reply</button>
+        <section id="downportion">
+            <div id="downleft">
+
+                <div id="tab_buttons">
+                    <button id="comments_tab_button">COMMENTS</button>
+                    {% if is_publisher %}
+                    <button id="insights_tab_button">INSIGHTS</button>
+                    {% endif %}
+                </div>
+
+                <div id="tabs">
+
+                    <div id="comments_tab">
+
+                        <div id="comment_section">
+
+
+
+                            <input type="hidden" name="note_id" value="{{main_data[0]}}" id="notename">
+
+                            <input type="text" id="comment_box">
+                            <button id="submit_comment">SUBMIT</button>
+
+
+                            <div id="comments">
+
+                                <div id="template_comment" style="display: none;">
+                                    <input type="hidden" class="comment_id" value="">
+                                    <div class="commenter_image"></div>
+                                    <div class="comment_details">
+                                        <span class="top-row">
+                                            <span class="username"></span>
+                                            <span class="date"></span>
+                                        </span>
+
+                                        <span class="commentText"></span>
+                                        <div id="like_and_reply">
+                                            <button class="reply">reply</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div id="divider" style="display: none;">
+                                    <button id="backToComments">back</button>
+                                    <span class="dividerline"></span>
+                                    <span>replys</span>
+                                    <span class="dividerline"></span>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div id="reply_section">
+                            <div id="replys"></div>
                         </div>
                     </div>
-                </div>
 
-                
+                    
+                    {% if is_publisher %}
 
-                <div id="divider" style="display: none;">
-                    <button id="backToComments">back</button>
-                    <span class = "dividerline"></span>
-                    <span>replys</span>
-                    <span class = "dividerline"></span>
-                </div>
+                    <div id="insights_tab">
+                    </div>
 
-
-            </div>
-
-            <div id="reply_section">
-                
-                
-                <div id="replys">
+                    {% endif %}
 
                 </div>
+
             </div>
 
-        </div>
 
-        <div id="details">
-            <h2>{{data[1].upper()}}</h2>
-            <div id="publisher_details">
-                <h4>{{data[5]}}</h4>
-                <img src="static/profile_pics/{{data[6]}}.png" alt="profile_pic" id="profile_pic">
+           
+
+            <div id="details">
+                <form action="/noteveiwer" method =  "post">
+                <input type="text" value = "{{main_data[1].upper()}}" class = "details_input" id = 'note_title_input'>
+                <div id="publisher_details">
+                    <span   id="publisher_name_input" >{{main_data[5]}}</span>
+                    <img src="static/profile_pics/{{main_data[6]}}.png" alt="profile_pic" id="profile_pic">
+                </div>
+                <div id="description">
+                </div>
+
+                <div id="rating_system">
+                    <img src="static/res/star_white.svg" alt="star_image" class="star">
+                    <img src="static/res/star_white.svg" alt="star_image" class="star">
+                    <img src="static/res/star_white.svg" alt="star_image" class="star">
+                    <img src="static/res/star_white.svg" alt="star_image" class="star">
+                    <img src="static/res/star_white.svg" alt="star_image" class="star">
+                </div>
+
+                <div id="description">
+                    <!-- <ul> -->
+                        <!-- {% for item in main_data[2].split("\n") %} -->
+                        <!-- <li>{{item}}</li> -->
+                        <!-- {% endfor %} -->
+                    <!-- </ul> -->
+                    <textarea name="description" id="description_input" cols="30" rows="10"  class = "details_input">{{main_data[2]}}</textarea>
+                    
+                    <button id="save" >SAVE</button>
+                </div>
+            </form>
             </div>
-            <div id="description">
-            </div>
 
-            <div id="rating_system">
-              <img src="static/res/star_white.svg" alt="star_image" class="star">
-              <img src="static/res/star_white.svg" alt="star_image" class="star">
-              <img src="static/res/star_white.svg" alt="star_image" class="star">
-              <img src="static/res/star_white.svg" alt="star_image" class="star">
-              <img src="static/res/star_white.svg" alt="star_image" class="star">
-            </div>
+      
+        </section>
 
-        </div>
-    </section>
-
-    <script src="{{url_for('static' , filename  = 'js/noteviewer.js')}}"></script>
+        <script src="{{url_for('static' , filename  = 'js/noteviewer.js')}}"></script>
 
 
 </div>
+</section>
 {% endblock %}

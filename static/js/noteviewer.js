@@ -199,4 +199,43 @@ star_list.forEach((star, index) => {
 
 })
 
+let insights_tab = document.getElementById("insights_tab");
+let comments_tab = document.getElementById("comments_tab")
+
+let comments_tab_button = document.getElementById("comments_tab_button");
+let insights_tab_button = document.getElementById("insights_tab_button");
+
+comments_tab_button.addEventListener("click" , ()=>{
+    insights_tab.style.display  = "none";
+    comments_tab.style.display = "block";
+    
+});
+insights_tab_button.addEventListener('click' , ()=>{
+    
+  
+    comments_tab.style.display = "none";
+    insights_tab.style.display = "inline";
+    
+})
+
+save_button =  document.getElementById("save");
+save_button.addEventListener("click" , (event)=>{
+    event.preventDefault();
+
+    let request = new XMLHttpRequest();
+    request.open("POST" , "/noteviewer" , true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    let title = document.getElementById("note_title_input").value;
+    let description = document.getElementById("description").value;
+
+    request.onload = ()=>{
+        console.log(request.responseText)
+    }
+    
+    let params  = `title=${title}&description=${description}&type=update`;
+    request.send(params)
+    
+})
+
 

@@ -66,58 +66,44 @@
 <footer id="pagechange">
     <div id="pagechangebox">
 
-        {% if page != 1%}
+        <div>
 
-        <form action="/search" method="GET" class="button">
-            <input type="hidden" name="q" value="{{search}}">
-            <input type="hidden" value={{page-1}} name="page">
-            <input type="submit" value="Previous" } class="button">
-        </form>
+            <form action="/search" class ="page_change_form">
+                {% if current_page == 0 %}
+                <input type="hidden" name = "page" value = "{{current_page}}" >
+                {% else %}
+                <input type="hidden" name = "page" value = "{{current_page+1}}" >
+                {% endif %}
 
-        {% endif %}
-
-        {% for button in buttons[:-1] %}
-
-
-        <form action="/search" method="GET">
-            <input type="hidden" name="q" value="{{search}}">
-            <input type="hidden" value={{button}} name="page">
-            <input type="submit" value={{button}} class="button">
-        </form>
-
-        {% endfor %}
-
-
-
-        {% if page+1 < last_page %} ... <form action="/search" method="GET" class="button">
-            <input type="hidden" name="q" value="{{search}}">
-            <input type="hidden" value={{last_page}} name="page">
-            <input type="submit" value={{last_page}} class="button">
+                <input type = "submit" id="previous" class = "change_button" value = "PREVIOUS">
             </form>
+            
 
-            {% endif %}
+            <input type="number" value = {{current_page}} id="current_page"> of 
+            <span id = "current_page_indicator">{{last_page}}</span>
 
-            {% if page != buttons[-1] %}
-
-            <form action="/search" method="GET" class="button">
-                <input type="hidden" name="q" value="{{search}}">
-                <input type="hidden" value={{page+1}} name="page">
-                <input type="submit" value="NEXT" class="button">
+            <form action="/search" class = "page_change_form">
+                {% if current_page == last_page %}
+                <input type="hidden" name = "page" value = "{{current_page}}" >
+                {% else %} 
+                <input type="hidden" name = "page" value = "{{current_page+1}}" >
+                {% endif %}
+                <input type = "submit" id="previous" class = "change_button" value = "NEXT">
             </form>
+            
 
-            {% endif %}
-
-
-
+        </div>
+            
+            
     </div>
-
+    
 </footer>
 
 <!-- <script src="{{ url_for('static' , filename = 'js/search.js') }}"></script>    -->
 <script>
     console.log("hiiii")
     let elements = document.getElementsByClassName("tile");
-
+    
     Array.from(elements).forEach((element, index) => {
         let submit_button = element.getElementsByClassName("submit_note")[0];
         console.log(submit_button , index);

@@ -343,49 +343,6 @@ def sign_in(  ):
     
     return render_template("sign_in_temp.html" ,warning = ""  )
 
-
-
-@app.route("/otppage" , methods = ["GET","POST"])
-def checker():
-    username = request.form.get("username")
-    grade12 = request.form.get("grade12")
-    print(username)
-    print(grade12)
-    email = request.form.get("email")
-    password = request.form.get("password")
-    print(password)
-    repassword = request.form.get("repassword")
-    print(repassword)
-    import os
-    import math
-    import random
-    import smtplib
-
-    digits="0123456789"
-    OTP=""
-    for i in range(6):
-        OTP+=digits[math.floor(random.random()*10)]
-    otp = OTP + " is your OTP"
-    msg= otp
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
-    s.login("ashvinpkumar2004@gmail.com", "fyrnczbqjptbtrwy")
-    emailid = email
-    s.sendmail('&&&&&&&&&&&',emailid,msg)
-    a = input("Enter Your OTP >>: ")
-    if a == OTP:
-        print("Verified")
-    else:
-        print("Please Check your OTP again")
-
-    if email!= None and password == repassword:
-
-
-        return render_template("otpchecker.html")
-    else:
-        return render_template("sign_up.html")
-
-
 @app.route("/sign_up" , methods = ["GET","POST"])
 def sign_up():
     
@@ -606,10 +563,6 @@ def verifier_single_note(id):
             
             return render_template("verifier_note.html")
     return redirect("/verifier")
-
-
-
-
 
 @app.route("/noteviewer" , methods = ["GET" ,"POST"])
 def noteviewer():

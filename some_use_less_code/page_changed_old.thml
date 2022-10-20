@@ -1,0 +1,45 @@
+   <!--
+   <div
+       
+       {% if page != 1%}
+       
+       
+       <form action="/search" method="GET" class="button">
+           <input type="hidden" name="q" value="{{search}}">
+           <input type="hidden" value={{page-1}} name="page">
+           <input type="submit" value="Previous" } class="button">
+       </form>
+       
+       {% endif %}
+       
+       {% for button in buttons[:-1] %}
+       
+       
+       <form action="/search" method="GET">
+           <input type="hidden" name="q" value="{{search}}">
+           <input type="hidden" value={{button}} name="page">
+       <input type="submit" value={{button}} class="button">
+   </form>
+   {% endfor %}
+   
+   
+   {% if page+1 < last_page %} ... <form action="/search" method="GET" class="button">
+       <input type="hidden" name="q" value="{{search}}">
+       <input type="hidden" value={{last_page}} name="page">
+       <input type="submit" value={{last_page}} class="button">
+       </form>
+       
+       {% endif %}
+       
+       {% if page != buttons[-1] %}
+       
+       <form action="/search" method="GET" class="button">
+           <input type="hidden" name="q" value="{{search}}">
+           <input type="hidden" value={{page+1}} name="page">
+           <input type="submit" value="NEXT" class="button">
+       </form>
+       
+       {% endif %}
+       
+   </div>
+   -->

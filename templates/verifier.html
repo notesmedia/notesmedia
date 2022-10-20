@@ -15,19 +15,26 @@
 
         {% for item in data %}
 
-        <div id="singleitem">
+      
 
-            <img src="/static/thumpnails/{{item[0]}}.png" alt="thumpnail">
+            <!-- <img src="/static/thumpnails/{{item[0]}}.png" alt="thumpnail"> -->
 
-            <div id="details">
-                <h3 id ="title">{{item[1]}}</h3>
-                published by
-                <h4 id="publisher">{{item[2]}}</h4>
+            <!-- <div id="details"> -->
+                <!-- <h3 id ="title">{{item[1]}}</h3> -->
+                <!-- published by -->
+                <!-- <h4 id="publisher">{{item[2]}}</h4> -->
+            <!-- </div> -->
+            
+            <div id="singleItem">
+                <!-- <span id="number"></span> -->
+                <span id="title">{{item[1]}}</span>
+                <span id="publisher">{{item[2]}}</span>
+                <span id="subject">{{item[4]}}</span>
             </div>
 
-            <a href="/verifier/{{item[0]}}">REVIEW</a>
+            <!-- <a href="/verifier/{{item[0]}}">REVIEW</a> -->
 
-        </div>
+       
 
         {% endfor%}
 

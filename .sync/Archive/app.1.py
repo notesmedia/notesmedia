@@ -2,38 +2,23 @@
 
 from flask import Flask , render_template , request , redirect , make_response, request_started, session , json
 import mysql.connector 
-import math 
+import math
 
-import os 
 
-from socket import gethostname 
 
 import utilities
 import json
 
 
-expiry = 60*60*24*365
-
-name =  gethostname()
-
-if name == 'navadeep':
-    db = "notemedia2"
-    password = 'navadeepnasa1295'
-elif name == 'ACER':
-    db = "notesmedia"
-    password = "ashvin2004"
-
-
-
 
 #some_varliabes 
-max_results = 5
+max_results = 100
 
 connection = mysql.connector.connect(
     host = "localhost",
-    user = 'root',
-    password =   password ,
-    db = db
+    user = "root",
+    password =  "navadeepnasa1295",
+    db = "notemedia2"
 )
 
 cursor = connection.cursor( buffered=True)
@@ -55,7 +40,7 @@ def  publisher_portal_page():
     
 
         res =  make_response(redirect("/sign_in"))
-        session["next_path" ] = "/publisher"
+        res.set_cookie("next_path", "/publisher_portal")
         return res
     cursor.execute(f"SELECT * FROM users WHERE email = '{id}'")
     
@@ -216,7 +201,6 @@ def verify_login(request, session):
 
 @app.route("/")
 def home():
-    print("hereeee")
     print("the session data is" , dict(session))
     return render_template("home.html" )
 
@@ -244,31 +228,25 @@ def search():
     print(len(data))
     print(total_pages)
 
-    if page > total_pages:
-        page = total_pages 
-    elif page < 1:
-        page = 1
-
     if len(data[ (page-1)*max_results :]) > max_results:
         data = data[ (page-1)* max_results : page*max_results]
     else:
         data = data[(page-1)*max_results:]
     
 
-    # buttons = []
-    # if page != 1:
-        # buttons.append(page-1)
-    # buttons.append(page)
-    # if page!=total_pages:
-        # buttons.append(page+1)
-    # 
-    # buttons.append(total_pages)
-# 
-    # print(buttons)
+    buttons = []
+    if page != 1:
+        buttons.append(page-1)
+    buttons.append(page)
+    if page!=total_pages:
+        buttons.append(page+1)
+    
+    buttons.append(total_pages)
 
+    print(buttons)
     
 
-    return render_template("search.html" , data = data, page = page , search = search , current_page = page, last_page = total_pages)
+    return render_template("search.html" , data = data, page = page , search = search , buttons = buttons , last_page = total_pages)
 
 @app.route("/preview")
 def preview():
@@ -333,7 +311,7 @@ def sign_in(  ):
             response = make_response(redirect(next_path ))   
 
             response.set_cookie("email" , email)
-            response.set_cookie("password" , password )
+            response.set_cookie("password" , password)
             session["signed_in"] =  True
             session["user_id"] = data[0]
             session["username"] = data[2]
@@ -342,49 +320,6 @@ def sign_in(  ):
         
     
     return render_template("sign_in_temp.html" ,warning = ""  )
-
-
-
-@app.route("/otppage" , methods = ["GET","POST"])
-def checker():
-    username = request.form.get("username")
-    grade12 = request.form.get("grade12")
-    print(username)
-    print(grade12)
-    email = request.form.get("email")
-    password = request.form.get("password")
-    print(password)
-    repassword = request.form.get("repassword")
-    print(repassword)
-    import os
-    import math
-    import random
-    import smtplib
-
-    digits="0123456789"
-    OTP=""
-    for i in range(6):
-        OTP+=digits[math.floor(random.random()*10)]
-    otp = OTP + " is your OTP"
-    msg= otp
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
-    s.login("ashvinpkumar2004@gmail.com", "fyrnczbqjptbtrwy")
-    emailid = email
-    s.sendmail('&&&&&&&&&&&',emailid,msg)
-    a = input("Enter Your OTP >>: ")
-    if a == OTP:
-        print("Verified")
-    else:
-        print("Please Check your OTP again")
-
-    if email!= None and password == repassword:
-
-
-        return render_template("otpchecker.html")
-    else:
-        return render_template("sign_up.html")
-
 
 @app.route("/sign_up" , methods = ["GET","POST"])
 def sign_up():
@@ -405,14 +340,13 @@ def sign_up():
                 
                 next_path  = session.get("next_path")
                 
-                #username = session["signup_username"]
-                #email = session["signup_email"]
-                #password  = session["signup_password"]
-#
+                username = session["signup_username"]
+                email = session["signup_email"]
+                password  = session["signup_password"]
+
                 
 
                 cursor.execute(f"INSERT INTO users VALUES ( default , '{email}','{password}', '{username}', false ,null, null, null)")
-                cursor.execute(f"INSERT INTO users VALUES ( default ,  false ,null, null, null)")
                 connection.commit()
 
                 if next_path is  None:
@@ -443,7 +377,7 @@ def sign_up():
 
             
     
-    return render_template("sign_up.html" , warning = "")
+    return render_template("sign_up_temp.html" , warning = "")
 
 @app.route("/signout" )
 def sign_out():
@@ -606,10 +540,6 @@ def verifier_single_note(id):
             
             return render_template("verifier_note.html")
     return redirect("/verifier")
-
-
-
-
 
 @app.route("/noteviewer" , methods = ["GET" ,"POST"])
 def noteviewer():
