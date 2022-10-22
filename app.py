@@ -276,30 +276,32 @@ def search():
 
     return render_template("search.html" , data = data, page = page , search = search , current_page = page, last_page = total_pages)
 
-@app.route("/preview" , method = ["GET" , "POST"])
+@app.route("/preview" , methods = ["GET" , "POST"])
 def preview():
 
     
     if request.method == "GET":
 
-        payment = client.order.create(data=data)
+        
 
 
         print(request.args.get("package"))
 
         if request.args.get("note") != None:
-            type = 1
+            type = "n"
+            object_id = request.args.get("note")
             query = f"""select note_id , title , price , subject , notes.publisher_id , users.username   , notes.description 
                 from notes,users
                 where users.user_id = notes.publisher_id and
                 note_id = '{request.args.get("note")}' """
 
         else:
-            type = 2
+            type = "p"
+            object_id = request.args.get("package")
             query = f"""select package_id , package_name , package_price , "" as subject , publisher_id , users.username   , package_description
                 from packages,users
                 where users.user_id = packages.publisher_id and
-                package_id = '{request.args.get("package")}' """
+                package_id = '{object_id}' """
 
         cursor.execute(query)
         data =  cursor.fetchall()[0]
@@ -307,7 +309,12 @@ def preview():
         payment_data = {
            "amount": data[2]*100,
            "currency": "INR",
-           "payment_capture":'1'
+           "payment_capture":'1',
+           "notes" : {
+            "note_id": object_id,
+            "user_id": session.get("user_id")
+
+        }
            }
         payment = client.order.create(data=payment_data)
 
@@ -319,6 +326,19 @@ def preview():
         return  render_template("preview.html" , data = data , rating = 0 , type = type, payment  = payment )
     elif request.method == "POST":
         data = request.form
+        success  = client.utility.verify_payment_signature(dict(data))
+        if success:
+            data = client.order.payments(data["razorpay_order_id"])
+            notes = data.get("items").get("notes")
+            object_id = notes.get("note_id")
+            user_id = notes.get("user_id")
+            query =  f"insert into purchases values( default , {object_id} , {user_id} , now() , 0 ,{type} )"
+            cursor.execute(query)
+            connection.commit()
+            if type == "n":
+                return redirect("/preview?note={object_id}")
+            elif type == "p":
+                return redirect("/preview?package={object_id}")
 
 @app.route("/sign_in" , methods = ["GET", "POST"])
 def sign_in(  ):
@@ -361,6 +381,7 @@ def sign_in(  ):
 
 @app.route("/otppage" , methods = ["GET","POST"])
 def checker():
+    
     try:
         if  request.form.get("email")!= None:
 
@@ -370,14 +391,21 @@ def checker():
             session["password"] = request.form.get("password")
         if request.form.get("repassword")!= None:
             session["repassword"] = request.form.get("repassword")
-        if request.form.get("entered-otp")!= None:
-            session["entered-otp"] = request.form.get("entered-otp")
+        
+        
     except:
         pass
+    try:
+        if request.form.get("entered_otp") != None:
+            session["entered_otp"] = request.form.get("entered_otp")
+    except:
+        session[entered_otp] = None
+
     email = session["email"]
     password = session["password"]
     repassword = session["repassword"]
     entered_otp = session["entered_otp"]
+    print(entered_otp)
 
     print(email)
     # username = request.form.get("username")
