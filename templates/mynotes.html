@@ -9,7 +9,7 @@
             {% for item in data%}
 
                 <div class="singlenote">
-
+                    <!-- {{item[3]}} -->
                     <form action="/noteviewer">
                         {% if item[3] == 'n' %}
                         <input type="hidden" name="note" value="{{item[0]}}">

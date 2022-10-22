@@ -199,24 +199,76 @@ star_list.forEach((star, index) => {
 
 })
 
-let insights_tab = document.getElementById("insights_tab");
-let comments_tab = document.getElementById("comments_tab")
+const insights_tab = document.getElementById("insights_tab");
+const comments_tab = document.getElementById("comments_tab");
+const details_tab = document.getElementById("details_tab") ;
 
-let comments_tab_button = document.getElementById("comments_tab_button");
-let insights_tab_button = document.getElementById("insights_tab_button");
+const comments_tab_button = document.getElementById("comments_tab_button");
+const insights_tab_button = document.getElementById("insights_tab_button");
+const details_tab_button =  document.getElementById("details_tab_button");
 
-comments_tab_button.addEventListener("click" , ()=>{
-    insights_tab.style.display  = "none";
-    comments_tab.style.display = "block";
+// const tabs = ["insights_tab" , "comments_tab" , "details_tab"]
+const tabs = document.getElementsByClassName('tab');
+console.log("the tabs are " ,tabs)
+const tab_buttons =  document.getElementsByClassName("tab_button")
+
+for(i in tabs){
+
     
-});
-insights_tab_button.addEventListener('click' , ()=>{
+    let tab = tabs[i];
     
-  
-    comments_tab.style.display = "none";
-    insights_tab.style.display = "inline";
-    
-})
+    let tab_button = tab_buttons[i];
+    // console.log(tabs[i]);
+    // console.log(tab_buttons[i])
+   
+    tab_button.addEventListener("click" ,(event)=>{
+        console.log(event.target)
+        for(item2 of tabs){
+            
+            if (item2 ==  tabs[ Array.from(tab_buttons).indexOf(event.target) ])  {
+                
+                console.log(item2.id , "dispay to flex")
+                item2.style.display = "flex"
+                event.target.style.borderBottom = "2px solid black" 
+                console.log(event.target.id) 
+                console.log(event.target.style.borderBottom )
+            }
+            else{
+                console.log(item2.id , "dispay to none")
+                item2.style.display = "none";
+                event.target.style.borderBottom = "0px"  ;  
+                console.log(event.target.style.borderBottom )
+            }
+        
+        }
+    })
+}
+
+
+// const tabs = [insights_tab , comments_tab , details_tab]
+// const tab_buttons = [insights_tab_button , ]
+
+// comments_tab_button.addEventListener("click" , ()=>{
+    // console.log(1)
+    // insights_tab.style.display  = "none";
+    // comments_tab.style.display = "block";
+    // details_tab.style.display = "none";
+    // 
+// });
+// insights_tab_button.addEventListener('click' , ()=>{
+    // 
+    // console.log(2)
+    // insights_tab.style.display = "none";
+    // comments_tab.style.display = "inline";
+    // details_tab.style.display = "none";
+    // 
+// })
+// details_tab_button.addEventListener("click" , ()=>{
+    // console.log(3)
+    // insights_tab.style.display = "none"
+    // comments_tab.style.display = "none"
+    // details_tab.style.display = "flex"
+// })
 
 save_button =  document.getElementById("save");
 save_button.addEventListener("click" , (event)=>{

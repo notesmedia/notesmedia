@@ -7,6 +7,7 @@
 
 
 {% block main %}
+
 <div id="viewer">
     <!-- <embed src= " {{url_for('static' , filename = 'notes/haloalkanes.pdf')}} "  width="800px" height="800px" /> -->
 
@@ -14,7 +15,7 @@
     <section id="main">
         <div id="top_portion">
 
-            {% if type == "package" %}
+            {% if type == "p" %}
             <div id="package_viewer">
 
 
@@ -61,116 +62,123 @@
 
 
         <section id="downportion">
-            <div id="downleft">
+            <!-- <div id="downleft"> -->
 
-                <div id="tab_buttons">
-                    <button id="comments_tab_button">COMMENTS</button>
-                    {% if is_publisher %}
-                    <button id="insights_tab_button">INSIGHTS</button>
-                    {% endif %}
-                </div>
+            <div id="tab_buttons">
+                <button id="comments_tab_button" class = "tab_button">COMMENTS</button>
+                {% if is_publisher %}
 
-                <div id="tabs">
+                <button id="insights_tab_button" class = "tab_button">INSIGHTS</button>
+                {% endif %}
+                <button id="details_tab_button" class = "tab_button">DETAILS</button>
+            </div>
 
-                    <div id="comments_tab">
+            <div id="tabs">
+                <div id="comments_tab" class  = "tab">
 
-                        <div id="comment_section">
-
-
-
-                            <input type="hidden" name="note_id" value="{{main_data[0]}}" id="notename">
-
-                            <input type="text" id="comment_box">
-                            <button id="submit_comment">SUBMIT</button>
+                    <div id="comment_section">
 
 
-                            <div id="comments">
 
-                                <div id="template_comment" style="display: none;">
-                                    <input type="hidden" class="comment_id" value="">
-                                    <div class="commenter_image"></div>
-                                    <div class="comment_details">
-                                        <span class="top-row">
-                                            <span class="username"></span>
-                                            <span class="date"></span>
-                                        </span>
+                        <input type="hidden" name="note_id" value="{{main_data[0]}}" id="notename">
 
-                                        <span class="commentText"></span>
-                                        <div id="like_and_reply">
-                                            <button class="reply">reply</button>
-                                        </div>
+                        <input type="text" id="comment_box">
+                        <button id="submit_comment">SUBMIT</button>
+
+
+                        <div id="comments">
+
+                            <div id="template_comment" style="display: none;">
+                                <input type="hidden" class="comment_id" value="">
+                                <div class="commenter_image"></div>
+                                <div class="comment_details">
+                                    <span class="top-row">
+                                        <span class="username"></span>
+                                        <span class="date"></span>
+                                    </span>
+
+                                    <span class="commentText"></span>
+                                    <div id="like_and_reply">
+                                        <button class="reply">reply</button>
                                     </div>
                                 </div>
-
-
-
-                                <div id="divider" style="display: none;">
-                                    <button id="backToComments">back</button>
-                                    <span class="dividerline"></span>
-                                    <span>replys</span>
-                                    <span class="dividerline"></span>
-                                </div>
-
-
                             </div>
 
+
+
+                            <div id="divider" style="display: none;">
+                                <button id="backToComments">back</button>
+                                <span class="dividerline"></span>
+                                <span>replys</span>
+                                <span class="dividerline"></span>
+                            </div>
+
+
                         </div>
 
-                        <div id="reply_section">
-                            <div id="replys"></div>
-                        </div>
                     </div>
 
-                    
-                    {% if is_publisher %}
-
-                    <div id="insights_tab">
+                    <div id="reply_section">
+                        <div id="replys"></div>
                     </div>
+                </div>
 
-                    {% endif %}
+
+                {% if is_publisher %}
+
+                <div id="insights_tab" class = "tab">
 
                 </div>
 
+                {% endif %}
+
+
+
+                <div id="details_tab" class  = "tab">
+                    
+                    <form action="/noteveiwer" method="post">
+                        <input type="text" value="{{main_data[1].upper()}}" class="details_input" id='note_title_input'>
+                        <div id="publisher_details">
+                            <span id="publisher_name_input">{{main_data[5]}}</span>
+                            <img src="static/profile_pics/{{main_data[6]}}.png" alt="profile_pic" id="profile_pic">
+                        </div>
+                        <div id="description">
+                        </div>
+
+                        <div id="rating_system">
+                            <img src="static/res/star_white.svg" alt="star_image" class="star">
+                            <img src="static/res/star_white.svg" alt="star_image" class="star">
+                            <img src="static/res/star_white.svg" alt="star_image" class="star">
+                            <img src="static/res/star_white.svg" alt="star_image" class="star">
+                            <img src="static/res/star_white.svg" alt="star_image" class="star">
+                        </div>
+
+                        <div id="description">
+                            <!-- <ul> -->
+                            <!-- {% for item in main_data[2].split("\n") %} -->
+                            <!-- <li>{{item}}</li> -->
+                            <!-- {% endfor %} -->
+                            <!-- </ul> -->
+                            <textarea name="description" id="description_input" cols="30" rows="10"
+                                class="details_input">{{main_data[2]}}</textarea>
+
+                            <button id="save">SAVE</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
 
-           
+<!-- </div> -->
 
-            <div id="details">
-                <form action="/noteveiwer" method =  "post">
-                <input type="text" value = "{{main_data[1].upper()}}" class = "details_input" id = 'note_title_input'>
-                <div id="publisher_details">
-                    <span   id="publisher_name_input" >{{main_data[5]}}</span>
-                    <img src="static/profile_pics/{{main_data[6]}}.png" alt="profile_pic" id="profile_pic">
-                </div>
-                <div id="description">
-                </div>
 
-                <div id="rating_system">
-                    <img src="static/res/star_white.svg" alt="star_image" class="star">
-                    <img src="static/res/star_white.svg" alt="star_image" class="star">
-                    <img src="static/res/star_white.svg" alt="star_image" class="star">
-                    <img src="static/res/star_white.svg" alt="star_image" class="star">
-                    <img src="static/res/star_white.svg" alt="star_image" class="star">
-                </div>
 
-                <div id="description">
-                    <!-- <ul> -->
-                        <!-- {% for item in main_data[2].split("\n") %} -->
-                        <!-- <li>{{item}}</li> -->
-                        <!-- {% endfor %} -->
-                    <!-- </ul> -->
-                    <textarea name="description" id="description_input" cols="30" rows="10"  class = "details_input">{{main_data[2]}}</textarea>
-                    
-                    <button id="save" >SAVE</button>
-                </div>
-            </form>
-            </div>
 
-      
-        </section>
 
-        <script src="{{url_for('static' , filename  = 'js/noteviewer.js')}}"></script>
+
+</section>
+
+<script src="{{url_for('static' , filename  = 'js/noteviewer.js')}}"></script>
 
 
 </div>

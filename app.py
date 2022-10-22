@@ -5,11 +5,14 @@ import mysql.connector
 import math 
 
 import os 
+import random
+import smtplib
 
 from socket import gethostname 
 
 import utilities
 import json
+import razorpay
 
 
 expiry = 60*60*24*365
@@ -22,6 +25,9 @@ if name == 'navadeep':
 elif name == 'ACER':
     db = "notesmedia"
     password = "ashvin2004"
+
+
+client = razorpay.Client(auth=("rzp_test_Rzk0yIJJVLvjgn", "NG7em3kEJJcOTjYrhZZrjreP"))
 
 
 
@@ -270,41 +276,49 @@ def search():
 
     return render_template("search.html" , data = data, page = page , search = search , current_page = page, last_page = total_pages)
 
-@app.route("/preview")
+@app.route("/preview" , method = ["GET" , "POST"])
 def preview():
 
-
-
-    print(request.args.get("package"))
-
-    if request.form.get("note") != None:
-        type = 1
-        query = f"""select note_id , title , price , subject , notes.publisher_id , users.username   , notes.description 
-            from notes,users
-            where users.user_id = notes.publisher_id and
-            note_id = '{request.args.get("note")}' """
-
-    else:
-        type = 2
-        query = f"""select package_id , package_name , package_price , "" as subject , publisher_id , users.username   , package_description
-            from packages,users
-            where users.user_id = packages.publisher_id and
-            package_id = '{request.args.get("package")}' """
-
-
-
- 
     
-    
-    cursor.execute(query)
-    data =  cursor.fetchall()[0]
+    if request.method == "GET":
 
-    # cursor.execute(f"select count(rating) from purchases where note_id = {id}")
-    # rating = cursor.fetchone()[0]
+        payment = client.order.create(data=data)
 
-    print(data)
-    # print(rating)
-    return  render_template("preview.html" , data = data , rating = 0 , type = type )
+
+        print(request.args.get("package"))
+
+        if request.args.get("note") != None:
+            type = 1
+            query = f"""select note_id , title , price , subject , notes.publisher_id , users.username   , notes.description 
+                from notes,users
+                where users.user_id = notes.publisher_id and
+                note_id = '{request.args.get("note")}' """
+
+        else:
+            type = 2
+            query = f"""select package_id , package_name , package_price , "" as subject , publisher_id , users.username   , package_description
+                from packages,users
+                where users.user_id = packages.publisher_id and
+                package_id = '{request.args.get("package")}' """
+
+        cursor.execute(query)
+        data =  cursor.fetchall()[0]
+
+        payment_data = {
+           "amount": data[2]*100,
+           "currency": "INR",
+           "payment_capture":'1'
+           }
+        payment = client.order.create(data=payment_data)
+
+        # cursor.execute(f"select count(rating) from purchases where note_id = {id}")
+        # rating = cursor.fetchone()[0]
+
+        print("the data is " , data)
+        # print(rating)
+        return  render_template("preview.html" , data = data , rating = 0 , type = type, payment  = payment )
+    elif request.method == "POST":
+        data = request.form
 
 @app.route("/sign_in" , methods = ["GET", "POST"])
 def sign_in(  ):
@@ -347,99 +361,136 @@ def sign_in(  ):
 
 @app.route("/otppage" , methods = ["GET","POST"])
 def checker():
-    username = request.form.get("username")
-    grade12 = request.form.get("grade12")
-    print(username)
-    print(grade12)
-    email = request.form.get("email")
-    password = request.form.get("password")
+    try:
+        if  request.form.get("email")!= None:
+
+            session["email"] = request.form.get("email")
+        if request.form.get("password") != None:
+
+            session["password"] = request.form.get("password")
+        if request.form.get("repassword")!= None:
+            session["repassword"] = request.form.get("repassword")
+        if request.form.get("entered-otp")!= None:
+            session["entered-otp"] = request.form.get("entered-otp")
+    except:
+        pass
+    email = session["email"]
+    password = session["password"]
+    repassword = session["repassword"]
+    entered_otp = session["entered_otp"]
+
+    print(email)
+    # username = request.form.get("username")
+    # grade12 = request.form.get("grade12")
+    # print(username)
+    # print(grade12)
+    # email = request.form.get("email")
+    # password = request.form.get("password")
     print(password)
-    repassword = request.form.get("repassword")
+    # repassword = request.form.get("repassword")
     print(repassword)
-    import os
-    import math
-    import random
-    import smtplib
+   
+   
+   
+   
+    # put these imports on the top me ashvin
 
-    digits="0123456789"
+
     OTP=""
-    for i in range(6):
-        OTP+=digits[math.floor(random.random()*10)]
-    otp = OTP + " is your OTP"
-    msg= otp
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
-    s.login("ashvinpkumar2004@gmail.com", "fyrnczbqjptbtrwy")
-    emailid = email
-    s.sendmail('&&&&&&&&&&&',emailid,msg)
-    a = input("Enter Your OTP >>: ")
-    if a == OTP:
-        print("Verified")
+    sotp = None
+    try:
+        sotp = session[otp]
+    except :
+        pass
+    if sotp == None or str(sotp) != str(entered_otp):
+        print("reached here")
+
+        digits="0123456789"
+
+        for i in range(6):
+            OTP+=digits[math.floor(random.random()*10)]
+        otp = OTP + " is your OTP"
+        msg= otp
+        print(otp)
+        session["otp"] = OTP
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.starttls()
+        s.login("ashvinpkumar2004@gmail.com", "fyrnczbqjptbtrwy")
+        emailid = email
+        print(emailid)
+        print(msg)
+        print("reached last")
+        s.sendmail('&&&&&&&&&&&',emailid,msg)
+
+        if email != None and password == repassword:
+            cursor.execute("select user_id from users order by user_id DESC limit 1")
+            data = cursor.fetchone()
+            id = data[0]
+            print(id)
+            print(data)
+
+
+            return render_template("otpchecker.html" )
+        else:
+            return render_template("sign_up.html")
     else:
-        print("Please Check your OTP again")
-
-    if email!= None and password == repassword:
-
-
-        return render_template("otpchecker.html")
-    else:
-        return render_template("sign_up.html")
+        render_template("home.html")
 
 
 @app.route("/sign_up" , methods = ["GET","POST"])
 def sign_up():
     
-    if request.method == "POST":
+    #f request.method == "POST":
 
-        default_otp = "1234"
+    #   default_otp = "1234"
 
-        username = request.form.get("username")
-        email = request.form.get("email")
-        password1 = request.form.get("password1")
-        password2 = request.form.get("password2")
+    #   username = request.form.get("username")
+    #   email = request.form.get("email")
+    #   password1 = request.form.get("password1")
+    #   password2 = request.form.get("password2")
 
-        otp = request.form.get("otp")
-        print(otp)
-        if otp is not None:
-            if otp  == default_otp:
-                
-                next_path  = session.get("next_path")
-                
-                #username = session["signup_username"]
-                #email = session["signup_email"]
-                #password  = session["signup_password"]
+    #   otp = request.form.get("otp")
+    #   print(otp)
+    #   if otp is not None:
+    #       if otp  == default_otp:
+    #           
+    #           next_path  = session.get("next_path")
+    #           
+    #           #username = session["signup_username"]
+    #           #email = session["signup_email"]
+    #           #password  = session["signup_password"]
 #
-                
+    #           
 
-                cursor.execute(f"INSERT INTO users VALUES ( default , '{email}','{password}', '{username}', false ,null, null, null)")
-                cursor.execute(f"INSERT INTO users VALUES ( default ,  false ,null, null, null)")
-                connection.commit()
+    #           cursor.execute(f"INSERT INTO users VALUES ( default , '{email}','{password}', '{username}', false ,null, null, null)")
+    #           cursor.execute(f"INSERT INTO users VALUES ( default ,  false ,null, null, null)")
+    #           connection.commit()
 
-                if next_path is  None:
-                    next_path = "/"
-                response = make_response(redirect(next_path))
-                response.set_cookie("email" , email)
-                response.set_cookie("password" , password)
-                session["signed_in"]  = True
+    #           if next_path is  None:
+    #               next_path = "/"
+    #           response = make_response(redirect(next_path))
+    #           response.set_cookie("email" , email)
+    #           response.set_cookie("password" , password)
+    #           session["signed_in"]  = True
 
-                return response
-                
-            
+    #           return response
+    #           
+    #       
 
-        cursor.execute(f"select * from users where email = '{email}'")
-        print(cursor.fetchone())
-        if(cursor.fetchone()) is not None:
-            return render_template("sign_up.html" , warning = "email already exists")
-        elif password1 != password2:
-            return  render_template("sign_up.html" , warning = "passwords dont match")
-        else:
-            response = make_response(render_template("otppage.html"))
+    #   cursor.execute(f"select * from users where email = '{email}'")
+    #   print(cursor.fetchone())
+    #   if(cursor.fetchone()) is not None:
+    #       return render_template("sign_up.html" , warning = "email already exists")
+    #   elif password1 != password2:
+    #       return  render_template("sign_up.html" , warning = "passwords dont match")
+    #   else:
+    #       response = make_response(render_template("otppage.html"))
 
-            session["signup_username"] = username
-            session["signup_email"] = email 
-            session["signup_password"] = password1
+    #       session["signup_username"] = username
+    #       session["signup_email"] = email 
+    #       session["signup_password"] = password1
 
-            return response
+    #       return response
 
             
     
@@ -502,7 +553,7 @@ def purchase_complete():
 def mynotes():
     if verify_login(request , session):
         user_id = session.get("user_id")
-        command = f"""select  notes.note_id, title , subject  
+        command = f"""select  notes.note_id, title , subject  , type
                       from purchases,  users , notes  
                       where purchases.user_id =  users.user_id and 
                       users.user_id = '{user_id}' and
@@ -702,26 +753,57 @@ def noteviewer():
         else:
                 print("gonna give the page")
                 cursor = connection.cursor(buffered=True)
-                note_id = request.args.get("note")
-                
-                query1 = f"""
-                         select notes.note_id , notes.title , notes.description , subject , u.username , p.username , p.user_id
-                         from purchases , users u , notes , users p
-                         where
-                         purchases.user_id = {session.get('user_id')} and
-                         purchases.note_id = notes.note_id and
-                         notes.publisher_id = p.user_id and
-                         purchases.note_id = {note_id}
-                """
-                cursor.execute(query1)
-                note = cursor.fetchall() 
+                if request.args.get("note") is not None:
+                    object_id =  request.args.get("note")
+                    query1 = f"""
+                             select notes.note_id , notes.title , notes.description , subject , u.username , p.username , p.user_id
+                             from purchases , users u , notes , users p
+                             where
+                             purchases.user_id = {session.get('user_id')} and
+                             purchases.note_id = notes.note_id and
+                             notes.publisher_id = p.user_id and
+                             purchases.note_id = {object_id}
+                    """
+                    type=  "n"
+
+                    main_data = cursor.execute(query1)
+
+                    
+                elif request.args.get("package") is not None:
+                    object_id = request.args.get("package")
+                    
+                    query1 = f"""
+                            select package_mapping.note_id , title , description , '' as subject , u.username, p.username , notes.publisher_id 
+                            from packages , package_mapping , purchases , notes , users p , users u 
+                            where packages.package_id =  package_mapping.package_id
+                            and purchases.note_id = packages.package_id 
+                            and purchases.type  = "p"
+                            and notes.note_id = package_mapping.note_id
+                            and p.user_id = notes.publisher_id
+                            and u.user_id = purchases.user_id
+                            and purchases.user_id = {session.get('user_id')}
+                            and packages.package_id = {object_id}
+                    """
+
+                    type = "p"
+                    
+                    cursor.execute(query1)
+                    data = cursor.fetchall()
+
+                    if request.args.get("index") is not None:
+                        index = request.args.get("index")
+
+                    else:
+                        index = 0
+                    main_data = data[index]
+                print( "the main data is ", main_data)
 
 
                 query2 = f"""
                             select comment_id , text  , username , date_format(date_time , "%b %d %Y") , users.user_id 
                             from comments , users where 
                             users.user_id = comments.user_id and    
-                            note_id = {note_id} and
+                            note_id = {main_data[0]} and
                             parent_comment = 0
                             order by comment_id desc
                     """
@@ -742,9 +824,6 @@ def noteviewer():
                 for i in range(len(reply_numbers)):
                     # print(list(reply_numbers[i]))
                     reply_numbers[i] = list(reply_numbers[i])
-
-                
-
                 
                 for i in range(len(comments)):
                     comments[i] = list(comments[i])
@@ -754,8 +833,12 @@ def noteviewer():
                 print(comments)
                 # print(reply_numbers)
                 
-                if len(note) != 0:
-                     return render_template("noteviewer.html" , data = note[0] , comments = comments  , reply_numbers = reply_numbers , name='"navadee"')
+                if len(data) != 0:
+                    if type == "n":
+                        return render_template("noteviewer.html" , main_data = main_data , comments = comments  , reply_numbers = reply_numbers , type = type)
+                    elif type == "p":
+                        return render_template("noteviewer.html" , main_data = main_data , data = data , comments = comments  , reply_numbers = reply_numbers , type = type , length = len(data))
+
            
         
 

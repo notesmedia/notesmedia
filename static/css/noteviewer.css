@@ -31,16 +31,34 @@
     width: 100vw;
     height: 40vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     /* background-color: red; */
+   
+    
+    align-items: center;
+}
+
+.tab_button{
+    width: 10vw;
+    border: 0px;
+    background-color: transparent;
+    /* border-bottom: 2px solid black; */
+    color: black;
+    font-family: sans-serif;
+    padding: 10px;
+
 }
 
 #tabs{
     width: 50vw;
+    display: flex;
+    
+    justify-content: center;
 }
 
 #comments_tab{
     width: 100%;
+    display: none;
 }
 
 #comment_section{
@@ -49,6 +67,7 @@
     background-color: rgb(224, 224, 224);
     overflow: hidden;
     overflow-y: scroll;
+    
 }
 .comment{
     background-color: rgb(248, 248, 248);
@@ -72,11 +91,6 @@
     flex-direction: row;
     /* background-color: red; */
 }
-#tab_buttons button{
-    background-color: rgb(216, 216, 216);
-    margin: 5px;
-    padding: 5px;
-}
 
 #downleft{
     display: flex;
@@ -98,7 +112,7 @@
 
 #comments{
     display: block;
-    background-color: green;
+    /* background-color: green; */
 }
 
 .comment_details{
@@ -155,12 +169,16 @@
     width: 100%;
 }
 
-#details{
+#details_tab{
     padding: 3%;
-    /* background-color: red; */
-    width: 100%;
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    justify-content: center;
+    width: 50vw;
     height: 100%;
 }
+
+
 
 #publisher_details{
     /* background-color: red; */
@@ -214,4 +232,15 @@
 
 #description_input{
     border: 1px solid black;
+}
+
+#save{
+    display: block;
+    background-color: var(--theme1_blue);
+    border: 0px ;
+    color: white;
+    padding: 10px;
+    font-family: sans-serif;
+    font-size:  15px;
+
 }
