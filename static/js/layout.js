@@ -73,7 +73,69 @@ black_space.addEventListener("click", (event) => {
 // ================== fuctions of buttons
 
 
+const searchButton = document.getElementById("search-button");
+const searchBox = document.getElementById("search-box");
+const searchForm = document.getElementById("search-form");
+const mainNavBar = document.getElementById("mainNavBar");
+const closeButton = document.getElementById("close-search");
 
+console.log(searchBox.style.display)
+
+searchButton.addEventListener("click" , (event)=>{
+    if(window.innerHeight >= window.innerWidth){
+
+        if(searchBox.style.display == "none" || searchBox.style.display == ""){
+            
+            
+            event.preventDefault();
+            mainNavBar.style.flexDirection = "column"
+            searchBox.style.display = "flex";
+            searchForm.style.border = "2px solid blue";
+            closeButton.style.display = "inline";
+            
+        }
+    }
+    })
+
+
+closeButton.addEventListener("click" , (event)=>{
+    event.preventDefault();
+    // searchBox.value = "";
+    // mainNavBar.style.flexDirection = 'row';
+    // searchBox.style.display = "none";
+    // searchForm.style.border = "0px";
+    // closeButton.style.display = "none";
+    mainNavBar.removeAttribute("style")
+    searchBox.removeAttribute("style")
+    searchForm.removeAttribute("style")
+    closeButton.removeAttribute("style")
+})
+
+
+var reset = false;
+if(window.innerWidth > window.innerHeight){
+    reset = true;
+}
+
+window.addEventListener("resize" , ()=>{
+    if(window.innerWidth > window.innerHeight ){
+
+        if(reset){
+            console.log("hiii")
+            mainNavBar.removeAttribute("style")
+            searchBox.removeAttribute("style")
+            searchForm.removeAttribute("style")
+            closeButton.removeAttribute("style")
+            reset =  false ;
+
+        }
+
+
+    }
+    else{
+        reset = true;
+    }
+})
 
 
 

@@ -1,6 +1,15 @@
 :root {
-    --background: rgb(248, 249, 253);
-    --shadox: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    --theme1_blue: rgb(16, 137, 255);
-    --theme2_blue: rgb(0, 63, 126);
+    --background: rgb(247, 248, 255);
+    --shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    --shadow2:  rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+
+    --theme1_blue: rgb(15, 82, 152);
+    --theme2_blue: rgb(60, 153, 220);
+    --theme3_blue: rgb(37, 101, 174);
+    --theme4_blue: rgb(0, 63, 126);
+    --theme5_blue: rgb(213, 243, 254);
+    --theme6_yellow: rgb(244, 212, 6);
+    --theme7_yellow: rgb(182, 157, 0);
 }
+    

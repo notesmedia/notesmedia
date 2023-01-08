@@ -23,82 +23,126 @@
 </div>
 
 
-<section id = "main">
-<form action="/publish" class="login-form" id="form" method="POST" enctype="multipart/form-data">
+<section id="main">
+	<form action="/publish" class="login-form" id="form" method="POST" enctype="multipart/form-data">
 
+		<select name="input_type" id="input_type" value="1">
+			<option value="1" selected  ="selected">note</option>
+			<option value="2" >package</option>
+		</select>
 
-	<input type="text" name="package_name" placeholder="title" required>
-	<textarea name="package_description" id="package_desc" cols="30" rows="10" required
-		placeholder="description"></textarea>
+		<div id="note_upload">
+			<div id="single_note_upload" class="single_note">
 
-
-	<div id=all_notes>
-
-		<div id="single_note" class="single_note">
-
-
-			<select name="type" id="type">
-
-				<option value="1">new note</option>
-				<option value="2"> from existing</option>
-
-			</select>
-
-			<div class="new_note">
-				<div class="form-group d-flex">
+				<div class="input_field_div">
 
 					<!-- <input type="hidden" name="type1" value="1" id="type"> -->
 
-					<input type="text" id="title" class="form-control rounded-left" placeholder="Publication Title"
+					<input type="text" id="title" class="input" placeholder="Publication Title"
 						name="title" />
 				</div>
 
-				<div class="form-group d-flex">
-					<input type="text" id="subject" class="form-control rounded-left" placeholder="Domain Subject"
+				<div class="input_field_div">
+					<input type="text" id="subject" class="input" placeholder="Domain Subject"
 						name="subject" />
 				</div>
 
-				<div class="form-group d-flex">
-					<textarea id="about" name="about" rows="4" cols="50" placeholder="about"></textarea>
+				<div class="input_field_div">
+					<textarea id="about" name="about" rows="4" cols="50" placeholder="about" class = "input"></textarea>
 				</div>
 
-				<div class="form-group d-flex">
-					<input type="file" id="file" class="form-control rounded-left" placeholder="Publication"
+				<div class="input_field_div">
+					<input type="file" id="file" class="input" placeholder="Publication"
 						name="file" />
 				</div>
-			</div>
-
-			<div class="from_existing">
-
-
-				<button id="select_note_button">select</button>
-				<input type="hidden" value="" id="selected_note_id" name="note_id" disabled>
-
-				<div id="selected_note"></div>
-
-
-
 
 			</div>
 
 		</div>
 
-	</div>
+		<div id="package_upload">
+
+			<input type="text" name="package_name" placeholder="title" required>
+			<textarea name="package_description" id="package_desc" cols="30" rows="10" required
+				placeholder="description"></textarea>
+
+
+			<div id=all_notes>
+
+				<div id="single_note" class="single_note">
+
+
+
+					<select name="type" id="type">
+
+						<option value="1">new note</option>
+						<option value="2"> from existing</option>
+
+					</select>
+
+					<div class="new_note">
+						<div class="input_field_div">
+
+							<!-- <input type="hidden" name="type1" value="1" id="type"> -->
+
+							<input type="text" id="title" class="input"
+								placeholder="Publication Title" name="title" />
+						</div>
+
+						<div class="input_field_div">
+							<input type="text" id="subject" class="input"
+								placeholder="Domain Subject" name="subject" />
+						</div>
+
+						<div class="input_field_div">
+							<textarea id="about" name="about" rows="4" cols="50" class = "input" placeholder="about"></textarea>
+						</div>
+
+						<div class="input_field_div">
+							<input type="file" id="file" class="input" placeholder="Publication"
+								name="file" />
+						</div>
+
+
+					</div>
+
+					<div class="from_existing">
+
+
+						<button id="select_note_button">select</button>
+						<input type="hidden" value="" id="selected_note_id" name="note_id" disabled>
+
+						<div id="selected_note"></div>
+
+					</div>
+
+					<button class="deleteButton" style="display: none;">
+						<!-- <img src="https://img.icons8.com/ios-glyphs/30/null/trash--v1.png"/> -->
+						REMOVE
+					</button>
+
+
+
+				</div>
+
+			</div>
+
+		</div>
 
 
 
 
-	<div id="controls">
+		<div id="controls">
 
-		<button id="add">ADD</button>
+			<button id="add">ADD</button>
 
-		<input type="hidden" name="number_of_upload" value="1" id="number_of_upload">
+			<input type="hidden" name="number_of_upload" value="1" id="number_of_upload">`
 
-		<button id="upload_button">Upload</button>
-	</div>
+			<button id="upload_button">Upload</button>
+		</div>
 
-	</div>
-</form>
+		</div>
+	</form>
 
 
 </section>

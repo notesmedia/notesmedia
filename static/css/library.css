@@ -1,0 +1,24 @@
+
+
+#mainHeading{
+    color: var(--theme2_blue);
+    /* background-color: red; */
+    font-size: 50px;
+    width: 80vw;
+    margin: auto;
+    margin-top: 20vh;
+    text-align: center;
+}
+
+#allnotes{
+
+    margin: auto;
+    /* background-color: red; */
+    /* align-items: center; */
+    /* justify-content: center ; */
+    width: 90vw;
+    
+    display: grid;
+    justify-content: center ;
+    grid-template-columns: repeat( auto-fit, minmax( 250px,  300px) );
+}

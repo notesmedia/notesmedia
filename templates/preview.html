@@ -1,19 +1,40 @@
 {% extends "layout.html" %}
 
+{% import "pdfviewer.html" as pdfviewer %}
+
 {% block head %}
 
 <!-- <link rel="stylesheet" href="{{ url_for('static' , filename = 'preview.css') }}"> -->
+<link rel="stylesheet" href="{{url_for('static' , filename  = 'css/pdfviewer.css')}}" />
+
 <link rel="stylesheet" href="../static/css/preview.css">
+
 {% endblock %}
 
 {% block main %}
 
+<script>
+
+    const pdfPath =  "../static/notes/{{data[0]}}.pdf";
+</script>
+
 <div id="main">
+
+    
 
     <div id="content">
 
+        
+
         <div id="preview">
             <img src="../static/thumpnails/{{data[0]}}.png" alt="sanam kittila">
+            
+            <button id="show_preview">SHOW PREVIEW</button>
+
+            
+            
+            {{ pdfviewer.pdfviewer() }}
+            <button id="goback">go back</button>
         </div>
         <div id="details">
 
@@ -39,7 +60,7 @@
             </ul>
 
 
-            {% if not pre_owned %}
+            {% if not pre_owned and logged_in %}
             <!-- <form action="/complete_purchase" id="buy-now" method = "POST">    -->
             <!-- <input type="hidden" name= "type" value="{{type}}"> -->
             <!-- <input type="hidden" name= "note" value="{{data[0]}}"> -->
@@ -67,12 +88,19 @@
             </form>
             </script>
 
-            {% else%}
+            {% elif not preowned and not logged_in %}
+
+            <form action="/sign_in">
+                <input type="submit" value = "BUY NOW">
+            </form>
+
+
+            {% else %}
             <form action="/noteviewer" id="open" method="GET">
-                {% if type == 2%}
-                <input type="hidden" name="package" value="{{data[0]}}">
-                {% elif type == 1%}
+                {% if type == 'n'%}
                 <input type="hidden" name="note" value="{{data[0]}}">
+                {% elif type == 'p'%}
+                <input type="hidden" name="package" value="{{data[0]}}">
                 {% endif %}
                 <input type="submit" value="OPEN">
             </form>
@@ -83,4 +111,9 @@
     </div>
 
 </div>
+
+
+<script src="{{url_for('static' , filename  = 'js/pdfviewer.js')}}"></script>
+<script src = "{{url_for('static' , filename  = 'js/preview.js')}}"></script>
+
 {% endblock %}

@@ -1,0 +1,70 @@
+{% macro footer() %}
+<link rel="stylesheet" href="{{ url_for('static' , filename = 'css/footer.css') }}">
+
+
+  <!-- Site footer -->
+  <div id = "footer">
+
+    <!-- <div > -->
+        <!-- <h2>Company</h2> -->
+<!--  -->
+        <!-- <ul class = "links"> -->
+            <!-- <li><a href="">Library</a></li> -->
+            <!-- <li><a href="">About us</a></li> -->
+            <!-- <li><a href="">Creators</a></li> -->
+            <!-- <li><a href="">Notes</a></li> -->
+        <!-- </ul> -->
+
+    <!-- </div> -->
+
+    <div id = "legal">
+        <h2>Legal</h2>
+        <ul class = "links">
+            <li><a href="">Copyrights</a></li>
+            <li><a href="">Privacy Policy</a></li>
+        </ul>
+    </div>
+
+    <!-- <div> -->
+        <!-- <h2>Materials</h2> -->
+        <!-- <ul class = "links"> -->
+            <!-- <li><a href="">Popular Packages</a></li> -->
+            <!-- <li><a href="">Popular Notes</a></li> -->
+            <!-- <li><a href="">Best Offers</a></li> -->
+<!--             -->
+        <!-- </ul> -->
+    <!-- </div> -->
+
+    <div id = "socialMediaLinks">
+
+        <h2>Contact Us</h2>
+
+        <ul>
+            <li>
+                <a id  = "email" href=""> 
+                    <img src="https://img.icons8.com/ios/50/null/secured-letter--v1.png"/> 
+                </a>
+            </li>
+            <li>
+                <a id  = "facebook" href="facebook">
+                    <img src="https://img.icons8.com/ios/50/null/facebook-new.png"/>
+                </a></li>
+            <li>
+                <a id  = "instagram" href="instagram">
+                    <img src="https://img.icons8.com/ios/50/null/instagram-new--v1.png"/>
+                </a>
+            </li>
+            <li>
+                <a id  = "linkdin" href="linkdin">
+                    <img src="https://img.icons8.com/ios/50/null/linkedin.png"/>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    
+
+  </div>
+
+
+{% endmacro %}

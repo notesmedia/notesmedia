@@ -5,6 +5,17 @@ body{
     justify-content: center;
 }
 
+input[type='text']{
+    border:0px;
+    border-bottom: 1px solid var(--theme1_blue);
+
+}
+
+input[type='text']:focus{
+    border: 0px;
+    border-bottom: 2px solid var(--theme1_blue);
+}
+
 #main{
     padding-bottom: 20vh;
 }
@@ -14,12 +25,30 @@ body{
     box-shadow: none;
 }
 
+.input_field_div{
+    /* border: 2px solid blue; */
+
+}
+
+.input_field_div .input{
+    margin: 5px 
+}
+
 .single_note {
     background-color: white;
     box-shadow: var(--shadox);
-    padding: 5%;
+    padding: 7%;
     margin: 5px;
-    height: 30vh;
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    /* border: 2px solid red; */
+    /* padding: 10px; */
+}
+
+.single_note *{
+    /* border:  1px solid red; */
 }
 
 #form{
@@ -27,6 +56,26 @@ body{
     flex-direction: column;
 }
 
+#note_upload{
+    display: block;
+}
+
+#package_upload{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    display: none;
+}
+
+#package_upload *{
+    padding: 0px;
+    margin: 5px;
+    /* border: 1px solid black; */
+}
+
+#package_description{
+    width:fit-content;
+}
 .from_existing{
     /* display: flex; */
     /* flex-direction: row; */
@@ -34,6 +83,10 @@ body{
     /* background-color: red; */
     height: 100px;
     width: 100px;
+}
+
+.from_existing * {
+    /* margin: 5px; */
 }
 #select_note_box{
     position: fixed;
@@ -88,13 +141,40 @@ body{
     /* background-color: red; */
 }
 
+#file{
+    /* padding: 10px;
+     */
+     margin: 5px;
+}
+
 #controls{
     /* background-color:red; */
     padding: 5px;
+}
+
+.deleteButton{
+    /* background-color: transparent; */
+    /* border: 0px; */
+    width: min-content;
+    margin-left: auto ;
 }
 
 #selected_note{
     height: 200px;
     width: 200px;
     overflow: hidden;
+}
+
+#input_type{
+    width: 150px;
+    margin: 5px;
+
+}
+
+
+#type{
+    width: min-content;
+    margin: 0px;
+    border: 5px;
+    border: 1px;
 }

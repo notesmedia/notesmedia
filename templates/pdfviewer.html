@@ -1,0 +1,20 @@
+{% macro pdfviewer()  %}
+
+<div id="container">
+    <div id="allpages">
+    </div>
+    <div id="controls">
+        <input type="range" id="zoom" min="30" max="100" value="80">
+        <img id="fullscreen" src="../static/res/fullscreen.png" alt="">
+    </div>
+</div>
+
+<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+<script>    
+    
+    console.log("pdf path again is ", pdfPath)
+
+</script>
+
+{% endmacro %}

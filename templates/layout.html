@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+{% import 'footer.html' as footer %}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,64 +15,80 @@
     <title>NotesMedia</title>
     {% block head %}
     {% endblock %}
-    <header>
+    
 
 
 
 <body>
-    <h2 id="title">NotesMedia</h2>
-    <form action="/search" , method="get" id="search-form">
-        <input type="text" id="search-box" name="q">
-        <input type="hidden" name="page" value="1">
-        <input type="submit" id="search-button" value="">
-    </form>
-    <button id="show_navbar">show</button>
-    <div id="allblack"></div>
+     <header>
 
-    <div id="navbar">
+    <div id="mainNavBar">
+
+        <!-- <span id = "titleBlockCover"> -->
+        <span id="titleBlock">
+            <button id="show_navbar"> <img src="static/res/hamburgerMenu.png" /> </button>
+            <h2 id="title">NotesMedia</h2>
+        </span>
+        <!-- </span> -->
+
+        <form action="/search" , method="get" id="search-form">
+            <input type="text" id="search-box" name="q">
+            <input type="hidden" name="page" value="1">
+            <button id="close-search">X</button>
+            <input type="submit" id="search-button" value="">
+        </form>
+
+        <div id="allblack"></div>
+
+        <div id="navbar">
 
 
 
 
-        <div id="signin">
-            
-            <a href="/sign_in" id="signinbutton" class = "profile_pic">
-                <!-- <img src="{{url_for('static' , filename = 'res/profile.png')}}" alt="" id="profile"> -->
-            </a>
+            <div id="signin">
 
-            <div id="signed_in">    
-                
-                <img src = "{{url_for('static' , filename = 'res/profile.png')}}" alt="" class="profile_pic">
-                <!-- <span id="email">email</span> -->
-                <div id="signinmenu">
-                    <ul>
-                       
-                        <a href="/signout">SIGNOUT</a>
-                    </ul>
+                <a href="/sign_in" id="signinbutton" class="profile_pic">
+                    <!-- <img src="{{url_for('static' , filename = 'res/profile.png')}}" alt="" id="profile"> -->
+                </a>
+
+                <div id="signed_in">
+
+                    <img src="{{url_for('static' , filename = 'res/profile.png')}}" alt="" class="profile_pic">
+                    <!-- <span id="email">email</span> -->
+                    <div id="signinmenu">
+                        <ul>
+
+                            <a href="/signout">SIGNOUT</a>
+                        </ul>
+                    </div>
                 </div>
+
             </div>
+
+            <ul id="links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/mynotes">My Notes</a></li>
+                <li><a href="/library">Library</a></li>
+                <li><a href="/publisher">Sell Notes</a></li>
+
+
+            </ul>
+
 
         </div>
 
-        <ul id="links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/mynotes">my notes</a></li>
-            <li><a href="/publisher">sell notes</a></li>
+        </header>
 
 
-        </ul>
 
+        {% block main %}
+        {% endblock %}
+
+        <script src="{{ url_for('static' , filename = 'js/layout.js') }}"></script>
+
+        {{ footer.footer() }}
 
     </div>
-
-    </header>
-
-
-
-    {% block main %}
-    {% endblock %}
-
-    <script src="{{ url_for('static' , filename = 'js/layout.js') }}"></script>
 
 
 </body>

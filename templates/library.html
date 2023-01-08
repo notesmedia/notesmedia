@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% import "searchresult.html" as searchresult %}
+
+{% block head %} 
+<link rel="stylesheet" href="{{url_for('static', filename = 'css/library.css' )}}">
+<link rel="stylesheet" href="{{url_for('static', filename = 'css/searchresult.css' )}}">
+
+{% endblock %}
+
+{% block main %}
+
+<h1 id="mainHeading">Library</h1>
+
+<div id="allnotes">
+
+    {% for item in notes %}
+    
+    {{ searchresult.searchresult(item) }}
+    
+    {% endfor %}
+    
+</div>
+
+{% endblock %}

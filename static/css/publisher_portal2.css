@@ -1,0 +1,407 @@
+body {
+    background-color: var(--background);
+}
+*{
+    font-family: sans-serif;
+}
+
+#complete_portion{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+#complete_portion > div{
+    /* border: 2px solid red;./ */
+}
+
+
+
+/* styling the top portion  */
+
+#top_portion{
+    /* background-color: blue; */
+    margin-top: 10vh;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: min-content;
+   
+   
+}
+
+#personal_details{
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    width: 80vw;
+    height: min-content;
+    margin: auto;
+    margin-top: 10vh;
+    box-shadow: var(--shadow2);
+}
+
+#profile_pic_section{
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+}
+
+#profile_pic_section img{
+
+    width: 20vw;
+
+}
+
+#personal_details > div{
+    /* border: 2px solid red; */
+    padding: 30px;
+}
+
+#personal_details_section{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+
+
+#name_position{
+    color: white;
+    padding: 15px;
+    background-color: darkblue;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+#other_details{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid red; */
+    width: 60%;
+}
+
+.single_detail{
+    margin: 10px;
+}
+
+.single_detail span{
+    font-weight: bold;
+    color: var(--theme3_blue);
+}
+
+.detail_div{
+    width: 80%;
+    margin: 35px 0px;
+
+}
+
+.detail_div h3{
+    color: var(--theme7_yellow);
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+}
+
+
+
+
+#statistics{
+    height: 100px;
+    width: 100%;
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: min-content ;
+    
+}
+
+.singleStatistics{
+    /* border: 2px solid red; */
+    width: 80vw;
+    margin: 15px 0px;
+
+}
+
+.statisticsDetails{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.singleStatistics h3{
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+.progressBar{
+    height: 5px;
+    width: 80%;
+    display: block;
+    width: 100%;
+    margin: 10px 0px;
+    background-color: rgb(235, 235, 235);
+    /* border: 2px solid red; */
+    
+    
+    
+    
+}
+
+.progression {
+
+    height: 5px;
+    display: block;
+    /* border: 2px solid red; */
+    background-color: rgb(60, 0, 255);
+
+}
+
+
+
+
+/* styling of the down portion  */
+
+#down_portion{
+    margin-top: 5vh;
+}
+
+#down_portion div{
+
+    /* border: 2px solid red; */
+}
+
+#tabs{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    /* background-color: red; */
+    width: min-content;
+    margin: auto;
+    background-color: rgb(227, 227, 227);
+    
+}
+
+.tab_button{
+    /* background-color: blue; */
+    color: rgb(0, 0, 0);
+    height: 50px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+}
+
+.insights_row {
+    color: rgb(155, 9, 118);
+    font-weight: bold;
+    font-style: bold;
+    font-size: 30px;
+    font-family: 'sans serif ,(serif)';
+}
+
+#main_tab_box{
+    /* border: 2px solid red; */
+    height: min-content;
+    width: 80vw;
+    overflow: hidden;
+    background-color: rgb(255, 0, 0);
+    margin-bottom: 1000px;
+    padding: 20px;
+
+    
+}
+
+.grid{
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit , minmax(250px , 300px) );
+    justify-content: space-around;
+    width: 100%;
+    background-color: rgb(231, 231, 231);
+    width: 80vw;
+    margin: auto;
+    column-gap: 2px;
+}
+.main{
+    height: 600px;
+    overflow: visible;
+    
+    /* display: none; */
+}
+
+.main-tile{
+    /* height: 200px; */
+    /* display: none; */
+    margin-bottom: 10vh;
+    transition: 0.5s;
+    background-color: rgb(255, 255, 255);
+    box-shadow: var(--shadox);
+    
+
+    
+}
+
+.main-tile a{
+    text-decoration: none;
+}
+
+.main-tile h6{
+    font-size: 20px;
+    text-align: center;
+    
+}
+
+.tile-insights{
+    /* padding: 10px 10px; */
+    /* display: none; */
+    height: 0px;
+    transition: 0.2s;
+    overflow: hidden;
+    margin-left : 10%;
+    /* background-color: red; */
+    width: min-content;
+    /* background-color: red; */
+}
+
+.main-tile:hover{
+    transform: scale(1.1);
+
+}
+
+.main-tile:hover  .tile-insights{
+    /* display: flex; */
+    height: 100px;
+    z-index: 10;
+}
+
+
+.tile img{
+    height: 50%;
+    width: 100%;
+}
+
+#publication-grid{
+    display: none;
+}
+
+#packages-grid{
+    display: none;
+}
+
+#insightbox{
+    
+    font-family: sans-serif;
+
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+
+    height: min-content;
+    /* display: none; */
+    background-color: rgb(227, 227, 227)
+
+}
+
+#insightbox *{
+    font-family: sans-serif;
+}
+
+
+
+#referal-box{
+    display: flex;
+    height: 5vh;
+    flex-direction: row;
+    margin: 30px 0px;
+    width: 100%;
+    /* overflow: hidden; */
+       
+}
+
+#referal-box input{
+    width: 80%;
+}
+
+#referal-box button{
+    width: 20%;
+}
+
+#referal-box button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#referal-box img{
+
+    height: 60%;
+    padding: 20px;
+
+
+}
+
+#referal-box input{
+    font-size: 20px;
+}
+
+#copyButton{
+    width: min-content;
+    margin: 10px    ;
+}
+
+#insightbox h3{
+    margin: 20px 0px;
+}
+
+#claimButton{
+    text-decoration: none;
+    background-color: var(--theme1_blue);
+    color: white;
+    /* height: 200px; */
+    /* width: 100px; */
+    padding: 10px;
+    margin: 50px 0px;
+}
+
+.box1{
+    background-color: rgb(227, 227, 227);
+    margin: 20px;
+    padding: 20px;
+    height: 60%;
+    width: 80%;
+    /* background-color: red; */
+
+}
+
+@media ( max-width: 100vh){
+    
+    #personal_details{
+        flex-direction: column;
+    }
+
+    #profile_pic_section img{
+        width: 50vw;
+    }
+
+    #insightbox{
+        flex-direction: column;
+    }
+
+}

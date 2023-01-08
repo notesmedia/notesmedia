@@ -1,0 +1,29 @@
+{% macro searchresult(item) %}
+
+
+<div class="singleresult">
+
+    <div id="imagediv">
+        <img src="../static/thumpnails/{{item[0]}}.png" alt="image kanunilla" id="thumpnail">
+
+    </div>
+
+    <div id="details">
+        <h4 class="title">{{item[1].upper()}}</h4>
+        <h4 class="text">{{ item[3] }}</h4>
+
+        <div class="publisher_details">
+            <img src="../static/profile_pics/{{item[4]}}.png" alt="" class="profile_pic">
+            <span class="publisher_username">{{item[5]}}</span>
+        </div>
+
+        <div class="downdetails">
+            <h4 class="text">₹ {{ item[2] }}</h4>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endmacro %}

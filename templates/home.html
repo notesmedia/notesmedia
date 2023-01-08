@@ -1,17 +1,120 @@
 {% extends "layout.html" %}
 
+{% import 'searchresult.html' as searchresult %}
 
 {% block head %}
+<link rel="stylesheet" href="static/css/searchresult.css">
 <link rel="stylesheet" href="static/css/home.css">
 {% endblock %}
 
 
 {% block main %}
 
-<div id="caption">
-    <h1>A Notes Platform</h1>
-    <h1>Of The People</h1>
-    <h1>By the People</h1>
-    <h1>From the People</h1>
+<div id="main_slider">
+
+    <div id="slides">
+
+
+        <div class="slide" id="slide1">
+
+            <p>
+
+                Notes <br>
+                For the People <br>
+                By the People <br>
+                From the People
+
+            </p>
+
+
+            <img src="{{ url_for('static' , filename = 'res/studying.png') }}" alt="image">
+
+        </div>
+        <div class="slide" id="slide2">
+            slide2
+
+        </div>
+        <div class="slide" id="slide3">
+            slide3
+
+        </div>
+
+    </div>
+
+    <div id="controls">
+        <input type="radio" class="slide_button" name="slider" id="slide_button1"></input>
+        <input type="radio" class="slide_button" name="slider" id="slide_button2"></input>
+        <input type="radio" class="slide_button" name="slider" id="slide_button3"></input>
+    </div>
+
 </div>
+
+<div id="recomendations" class="row">
+
+    <h1>Reccomented For User</h1>
+
+    <div class = "row_slider" >
+
+        <button class="back row_button reccRowButton" id="recommentations_back">
+            <img src="{{ url_for('static' , filename = 'res/arrow1.png') }}" alt="">
+        </button>
+
+        <div class="hScroll">
+
+
+            <div class="all_tiles" id="all_recommentations">
+
+                {% for item in notes%}
+
+                {{ searchresult.searchresult(item = item) }}
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <button class="forward row_button reccRowButton" id="recommentations_forward">
+            <img src="{{ url_for('static' , filename = 'res/arrow1.png') }}" alt="front">
+        </button>
+    </div>
+</div>
+
+
+
+<div id="library" class="row">
+
+    <h1> <a href="/library">Explore the ocean of knowledge</a></h1>
+
+    <div class="row_slider">
+
+        
+        
+        <button class="back row_button libraryRowButton" id="library_back">
+            <img src="{{ url_for('static' , filename = 'res/arrow1.png') }}" alt="">
+        </button>
+        
+        <div class="hScroll">
+            
+            
+            <div class="all_tiles" id="all_library_items">
+                {% for item in notes %}
+                {{ searchresult.searchresult(item = item) }}
+                {% endfor %}
+            </div>
+            
+        </div>
+        
+        <button class="forward row_button libraryRowButton" id="library_back">
+            <img src="{{ url_for('static' , filename = 'res/arrow1.png') }}" alt="">
+        </button>
+        
+    </div>
+</div>
+
+
+<script src="{{ url_for('static' , filename = 'js/home.js') }}"></script>
+
+
+
+
 {% endblock %}

@@ -21,6 +21,8 @@
 #preview{
 
     height: fit-content;
+    display: flex;
+    flex-direction: column;
     /* background-color: red; */
 }
 #preview img{
@@ -105,4 +107,51 @@
     color: blue;
     border: 3px solid blue;
     margin: auto;
+}
+
+
+/* code for pdfviewer  */
+
+#container{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    background-color: var(--background);
+    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
+    margin: 0px;
+    
+
+    
+}
+
+#container::-webkit-scrollbar {
+    display: none;
+    
+  }
+  
+#allpages{
+    width: 40%;
+}
+
+#fullscreen{
+    display: none;
+}
+
+#zoom{
+    position: fixed;
+    bottom: 30px;
+    right: 10px;
+}
+
+#goback{
+    display: none;
+    position: fixed;
+    top: 10vh;
+    left: 20px;
+    /* z-index: 10; */
 }

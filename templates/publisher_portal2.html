@@ -1,0 +1,187 @@
+{% extends "layout.html" %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static' , filename = 'css/publisher_portal2.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<div id="complete_portion">
+
+    <div id="top_portion">
+
+
+        <div id="personal_details">
+            <div id="profile_pic_section">
+
+                <img src="static/profile_pics/{{data[0]}}.png" alt="">
+
+            </div>
+            <div id="personal_details_section">
+
+                <div id="name_position">
+                    <h1>{{data[1].upper()}}</h1>
+                    <span>coach</span>
+                </div>
+
+                <div id="other_details">
+
+
+                    <span class="single_detail"> <span>Position</span> : Coach</span>
+                    <span class="single_detail"> <span>Email</span> : {{data[2]}}</span>
+                    <span class="single_detail"> <span>Phone</span> : {{9867578456}}</span>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div id="aboutMe" class = "detail_div">
+            <h3>ABOUT ME</h3>
+            <p> {{data[5]}} </p>
+        </div>
+
+
+        <div id="statistics">
+
+            <div class="singleStatistics">
+                <span class="statisticsDetails">
+                    <h3 class=key>Student Satisfaction</h3>
+                    <h3 class="value">80%</h3>
+                </span>
+                <span class="progressBar"> <span class="progression" style="width: 50%;"></span> </span>
+            </div>
+
+            <div class="singleStatistics">
+                <span class="statisticsDetails">
+                    <h3 class=key>Publications</h3>
+                    <h3 class="value">80%</h3>
+                </span>
+                <span class="progressBar"> <span class="progression" style="width: 50%;"></span> </span>
+            </div>
+
+            <div class="singleStatistics">
+                <span class="statisticsDetails">
+                    <h3 class=key>Relative Score</h3>
+                    <h3 class="value">80%</h3>
+                </span>
+                <span class="progressBar"> <span class="progression" style="width: 50%;"></span> </span>
+            </div>
+
+            <div class="singleStatistics">
+                <span class="statisticsDetails">
+                    <h3 class=key>Experience</h3>
+                    <h3 class="value">80%</h3>
+                </span>
+                <span class="progressBar"> <span class="progression" style="width: 50%;"></span> </span>
+            </div>
+
+        </div>
+
+        <div id="aboutMe" class = "detail_div">
+            <h3>EDUCATION</h3>
+            <p> TO BE CONTINUED </p>
+        </div>
+
+    </div>
+
+    <div id="down_portion">
+
+        <div id="tabs">
+            <div id="Publication-button" class="tab_button">Publication</div>
+            <div id="Insights-button" class="tab_button">Insights</div>
+            <div id="Package-button" class="tab_button">Packages</div>
+        </div>
+
+        <div class="main_tab_box">
+            <div id="publication-grid" class="grid">
+                {% for item in publications %}
+                <div class="main">
+                    <div class="main-tile" id="{item[1]}">
+                        <a href="{{note_id}}" style="color: black">
+                            <div class="tile">
+                                <img src="static\thumpnails\1.png" alt="" />
+
+                                <h6 style="margin-bottom: 10px">{{item[1].upper()}}</h6>
+                            </div>
+                        </a>
+
+
+                        <div class="tile-insights">
+                            <h4> Downloads:</h4>
+
+                            <h4> Revenue:</h4>
+
+                            <h4> Referal purchases:</h4>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="packages-grid" class="grid">
+                {% for item in publications %}
+                <div class="main">
+                    <div class="main-tile" id="{item[1]}">
+                        <a href="{{note_id}}" style="color: black">
+                            <div class="tile">
+                                <img src="static\thumpnails\1.png" alt="" />
+
+                                <h6 style="margin-bottom: 10px">{{item[1].upper()}}</h6>
+                            </div>
+                        </a>
+
+
+                        <div class="tile-insights">
+                            <h4> Downloads:</h4>
+
+                            <h4> Revenue:</h4>
+
+                            <h4> Referal purchases:</h4>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+
+            <div id="insightbox">
+                <div class="box1">
+                    <h3 class="insights_row"> Total Publications : {{total_publication}}</h3>
+
+                    <h3 class="insights_row">Total Downloades : 345</h3>
+
+                    <h3 class="insights_row">Overall growt : 2%</h3>
+
+                </div>
+
+                <div class="box1">
+                    <h3 class="insights_row">Total Revenue : $500</h3>
+
+                    <a href="#" id="claimButton" class="button"><span class="gradient"></span>Claim Revenue</a>
+
+                    <div id="referal-box">
+
+                        <input id="code" value="AAK2002">
+                        <button class="material-icons" onclick="copy()" id="copy"><img
+                                src="https://img.icons8.com/windows/96/null/clone-figure.png" /></button>
+
+                    </div>
+                </div>
+            </div>
+            </section>
+        </div>
+
+        }
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static' , filename = 'js/publisher_portal2.js') }}"></script>
+
+{% endblock %}

@@ -17,10 +17,19 @@ var all_comments = document.getElementsByClassName("comment");
 
 var rating_system = document.getElementById("rating_system");
 
+
+// const allPages = document.getElementById("allpages");
+
+const zoom = document.getElementById("zoom");
+
+
+
 reply_mode = false
 parent_comment = 0
 
 console.log(comments_initial)
+
+
 
 comments_initial.comments.forEach((comment,) => {
     make_comment(comment);
@@ -190,7 +199,7 @@ star_list.forEach((star, index) => {
         for (i = index + 1; i < star_list.length; i = i + 1) {
             star_list[i].setAttribute("src", "static/res/star_white.svg")
         }
-        parameters = `type=rating&rating=${index+1}&note_id=${note_id}`
+        parameters = `type=rating&rating=${index + 1}&note_id=${note_id}`
         request.send(parameters);
 
     })
@@ -199,95 +208,203 @@ star_list.forEach((star, index) => {
 
 })
 
+const post_review_button = document.getElementById("post_review");
+const review_area = document.getElementById("allreviews")
+// const 
+
+async function getReviews() {
+    console.log("rendering review")
+
+    params = {
+        method: "POST",
+        body: `type=get_reviews&id=${note_id}`,
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded"
+        }
+    }
+
+    let data = await fetch("/noteviewer", params);
+    let parsedData = await data.json();
+
+    console.log("the parsed data is ", parsedData)
+    return parsedData.reviews
+
+}
+
+getReviews().then((reviews) => {
+    console.log(typeof reviews)
+    console.log("the recevied reviews are ", reviews)
+    console.log("rendering the reviws in the review area")
+    own_review = null;
+    for (review of reviews) {
+        new_review = document.getElementById("review_template").cloneNode(true);
+        new_review.getElementsByClassName("user_id")[0].value = review[2]
+        new_review.getElementsByClassName("username")[0].innerText = review[3];
+        new_review.getElementsByClassName("review_text")[0].innerText = review[1];
+        new_review.style.display = "flex";
+        console.log("reviews are", review_area.querySelector(".review"));
+        if (review_area.querySelector(".review")) {
+
+            if (review[2] !== user_id || review_area.querySelector(".review").length == 0) {
+                console.log(review)
+                review_area.append(new_review);
+            } else {
+
+                review_area.insertBefore(new_review, review_area.firstChild);
+            }
+        }
+    }
+
+})
+
+
+
+console.log("hello hello mike testin")
+post_review_button.addEventListener("click", (event) => {
+
+    console.log("here to post review")
+    let review_text = document.getElementById("review_text").value;
+
+    if (review_text != "") {
+
+
+        let request = new XMLHttpRequest();
+        request.open("POST", "/noteviewer", true)
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        let params = `type=post_review&review=${review_text}&note_id=${note_id}`
+
+
+        request.onload = () => {
+
+            if (request.status === 200) {
+                console.log("the responce was", request.responseText)
+
+
+
+
+
+                if (review_area.getElementsByClassName("review").length > 0) {
+                    console.log("step 1")
+                    let firstComment = review_area.firstChild;
+                    console.log(typeof firstComment.getElementsByClassName("user_id")[0].value)
+                    console.log(typeof user_id)
+                    if (parseInt(firstComment.getElementsByClassName("user_id")[0].value) === user_id) {
+                        console.log("step 2")
+                        firstComment.getElementsByClassName("review_text")[0].innerText = review_text;
+                    }
+                    else {
+                        new_comment = document.getElementById("review_template").cloneNode(true);
+                        new_comment.getElementsByClassName("review_text")[0].innerText = review_text;
+                        new_comment.style.display = "flex";
+
+                        review_area.append(new_comment);
+                    }
+                }
+
+            }
+        }
+        console.log("the params are ", params)
+        request.send(params)
+    }
+
+
+
+
+
+
+})
+
+
+
 const insights_tab = document.getElementById("insights_tab");
 const comments_tab = document.getElementById("comments_tab");
-const details_tab = document.getElementById("details_tab") ;
+const details_tab = document.getElementById("details_tab");
 
 const comments_tab_button = document.getElementById("comments_tab_button");
 const insights_tab_button = document.getElementById("insights_tab_button");
-const details_tab_button =  document.getElementById("details_tab_button");
+const details_tab_button = document.getElementById("details_tab_button");
 
 // const tabs = ["insights_tab" , "comments_tab" , "details_tab"]
 const tabs = document.getElementsByClassName('tab');
-console.log("the tabs are " ,tabs)
-const tab_buttons =  document.getElementsByClassName("tab_button")
+console.log("the tabs are ", tabs)
+const tab_buttons = document.getElementsByClassName("tab_button")
+console.log("the tab buttons are ", tab_buttons)
 
-for(i in tabs){
+for (i in tabs) {
 
-    
+
     let tab = tabs[i];
-    
+
     let tab_button = tab_buttons[i];
     // console.log(tabs[i]);
     // console.log(tab_buttons[i])
-   
-    tab_button.addEventListener("click" ,(event)=>{
+
+    tab_button.addEventListener("click", (event) => {
         console.log(event.target)
-        for(item2 of tabs){
-            
-            if (item2 ==  tabs[ Array.from(tab_buttons).indexOf(event.target) ])  {
-                
-                console.log(item2.id , "dispay to flex")
+        for (item2 of tabs) {
+
+            if (item2 == tabs[Array.from(tab_buttons).indexOf(event.target)]) {
+
+                console.log(item2.id, "dispay to flex")
                 item2.style.display = "flex"
-                event.target.style.borderBottom = "2px solid black" 
-                console.log(event.target.id) 
-                console.log(event.target.style.borderBottom )
+                event.target.style.borderBottom = "2px solid black"
+                console.log(event.target.id)
+                console.log(event.target.style.borderBottom)
             }
-            else{
-                console.log(item2.id , "dispay to none")
+            else {
+                console.log(item2.id, "dispay to none")
                 item2.style.display = "none";
-                event.target.style.borderBottom = "0px"  ;  
-                console.log(event.target.style.borderBottom )
+                event.target.style.borderBottom = "0px";
+                console.log(event.target.style.borderBottom)
             }
-        
+
         }
     })
 }
 
 
-// const tabs = [insights_tab , comments_tab , details_tab]
-// const tab_buttons = [insights_tab_button , ]
-
-// comments_tab_button.addEventListener("click" , ()=>{
-    // console.log(1)
-    // insights_tab.style.display  = "none";
-    // comments_tab.style.display = "block";
-    // details_tab.style.display = "none";
-    // 
-// });
-// insights_tab_button.addEventListener('click' , ()=>{
-    // 
-    // console.log(2)
-    // insights_tab.style.display = "none";
-    // comments_tab.style.display = "inline";
-    // details_tab.style.display = "none";
-    // 
-// })
-// details_tab_button.addEventListener("click" , ()=>{
-    // console.log(3)
-    // insights_tab.style.display = "none"
-    // comments_tab.style.display = "none"
-    // details_tab.style.display = "flex"
-// })
-
-save_button =  document.getElementById("save");
-save_button.addEventListener("click" , (event)=>{
+save_button = document.getElementById("save");
+save_button.addEventListener("click", (event) => {
     event.preventDefault();
 
     let request = new XMLHttpRequest();
-    request.open("POST" , "/noteviewer" , true);
+    request.open("POST", "/noteviewer", true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     let title = document.getElementById("note_title_input").value;
     let description = document.getElementById("description").value;
 
-    request.onload = ()=>{
+    request.onload = () => {
         console.log(request.responseText)
     }
-    
-    let params  = `title=${title}&description=${description}&type=update`;
+
+    let params = `title=${title}&description=${description}&type=update`;
     request.send(params)
-    
+
 })
+
+// console.log('reacher here')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

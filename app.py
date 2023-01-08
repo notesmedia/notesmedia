@@ -47,6 +47,8 @@ cursor = connection.cursor( buffered=True)
 app = Flask(__name__)
 app.secret_key = "fkajsdflkajdlsfja"
 
+print(type("nasa"))
+
 
 @app.route('/publisher'  ,methods = ["POST", "GET"])
 def  publisher_portal_page():
@@ -56,19 +58,21 @@ def  publisher_portal_page():
     
     id = request.cookies.get("email")
     password = request.cookies.get("password")
-    
+
+    print("the id is " , id , "the password is " , password)
+
     if id is None or password is None:
     
 
         res =  make_response(redirect("/sign_in"))
         session["next_path" ] = "/publisher"
         return res
-    cursor.execute(f"SELECT * FROM users WHERE email = '{id}'")
+    cursor.execute(f"SELECT user_id  , username , email , password , is_publisher, about about FROM users WHERE email = '{id}'")
     
     
     data = cursor.fetchone()
 
-    if data[2] == password:
+    if data[3] == password:
         if data[4] == 1:
             cursor.execute(f"SELECT * FROM notes WHERE publisher_id = '{data[0]}'")
             publications = cursor.fetchall()
@@ -90,14 +94,14 @@ def  publisher_portal_page():
             session["data"] = data
 
 
-            return  render_template("publisher_portal.html" , packages = packages , data = data , publications = publications, id = data[0], x= x , rno = area, total_publication = len(publications))
+            return  render_template("publisher_portal2.html" , packages = packages , data = data , publications = publications, id = data[0], x= x , rno = area, total_publication = len(publications))
         else:
             return(redirect("/publisher_form"))
-   
+    
     else:
         # res =  make_response(redirect("/sign_in"))
         # res.set_cookie("next_path", "/publisher_portal")
-        session["next_path"] = "/publisher_portal"
+        session["next_path"] = "/publisher"
         return redirect("/sign_in")
 
 @app.route('/publisher_form'  ,methods = ["POST", "GET"])
@@ -125,65 +129,85 @@ def publish_page():
 
     cursor.execute(f"select note_id , title from notes where publisher_id = {session.get('user_id')}")
     notes = cursor.fetchall()
+    print( "value that we got are",dict(request.form))
+    print(session.get("is_publisher"))
     
     if session.get("signed_in") == True and session.get("is_publisher") == True:
 
-        if request.method == 'POST':
-
-            email = session.get("user")
-
-            # p = request.files['file']
-
-            for item in dict(request.form):
-                print(item , request.form[item])
-
-            package_name = request.form.get("package_name")
-            package_description = request.form.get("package_description")
-
-            cursor.execute(f"insert into packages values(default , '{package_name}' , '{package_description}' , 139 , '{session.get('user_id')}' , 0)")
-            cursor.execute("select package_id from packages order by package_id desc limit 1")
-            package_id = cursor.fetchone()[0]
-            if package_id is None:
-                package_id = 1
-            print("the package is " , package_id)
-            connection.commit()
-            
-
-            number_of_notes = request.form.get("number_of_upload")
         
-            for i in range(int(number_of_notes)):
-                i = str(i+1)
-                type_of_note = request.form.get("type"+ i)
 
-             
+        if request.method == 'POST':
+            input_type = request.form.get("input_type")
             
-                if type_of_note == "1":
-                    
-                    title = request.form.get("title" + i)
-                    subject = request.form.get("about" + i)
-                    description = request.form.get("description" + i)
-                    file = request.files.get("file" + i)
-                    query = f"insert into notes values(default , '{title}' ,0 , '{subject}' , {session.get('user_id')}, 1 , '{description}' , 0  )"
-                    cursor.execute(query)
-                    cursor.execute("select note_id from notes order by note_id desc limit 1")
+            if input_type == "1":
+                print("uploding a note")
+                title = request.form.get("title")
+                description = request.form.get("about")
+                subject = request.form.get("subject")
+                file = request.form.get("file")
 
-                    
-                    note_id = cursor.fetchone()[0]
-                    cursor.execute(f"insert into package_mapping values( '{package_id}' , '{note_id}' )")
+                query = f"insert into notes values(default, '{title}' , 0 , '{subject}' , {session.get('user_id')} , 1 , '{description}' , 0)"
+                cursor.execute(query)
+                connection.commit()
+                return redirect("/publisher")
+            else:
 
-                    print(note_id , title, subject , description)
-                    
-                    # file.save(f"static/notes/{note_id}.pdf")
-                    # utilities.create_thumpnail(f"{note_id}.pdf")
-                    
-                elif type_of_note == "2":
-                    
-                    note_id = request.form.get("note_id" + i)
-                    cursor.execute(f"insert into package_mapping value( '{package_id}' , '{note_id}'  )")
-                    
+                print( "value that we got are",dict(request.form))
+
+                email = session.get("user")
+
+                # p = request.files['file']
+#   
+                # for item in dict(request.form):
+                    # print(item , request.form[item])
+
+                package_name = request.form.get("package_name")
+                package_description = request.form.get("package_description")
+
+                cursor.execute(f"insert into packages values(default , '{package_name}' , '{package_description}' , 139 , '{session.get('user_id')}' , 0)")
+                cursor.execute("select package_id from packages order by package_id desc limit 1")
+                package_id = cursor.fetchone()[0]
+                if package_id is None:
+                    package_id = 1
+                print("the package is " , package_id)
                 connection.commit()
 
-            return redirect("/publisher")
+
+                number_of_notes = request.form.get("number_of_upload")
+
+                for i in range(int(number_of_notes)):
+                    i = str(i+1)
+                    type_of_note = request.form.get("type"+ i)
+
+
+
+                    if type_of_note == "1":
+
+                        title = request.form.get("title" + i)
+                        subject = request.form.get("about" + i)
+                        description = request.form.get("description" + i)
+                        file = request.files.get("file" + i)
+                        query = f"insert into notes values(default , '{title}' ,0 , '{subject}' , {session.get('user_id')}, 1 , '{description}' , 0  )"
+                        cursor.execute(query)
+                        cursor.execute("select note_id from notes order by note_id desc limit 1")
+
+
+                        note_id = cursor.fetchone()[0]
+                        cursor.execute(f"insert into package_mapping values( '{package_id}' , '{note_id}' )")
+
+                        print(note_id , title, subject , description)
+
+                        # file.save(f"static/notes/{note_id}.pdf")
+                        # utilities.create_thumpnail(f"{note_id}.pdf")
+
+                    elif type_of_note == "2":
+
+                        note_id = request.form.get("note_id" + i)
+                        cursor.execute(f"insert into package_mapping value( '{package_id}' , '{note_id}'  )")
+
+                    connection.commit()
+
+                return redirect("/publisher")
 
         return  render_template("publish_doc.html" , notes = notes)
     return "poda ooolle"
@@ -222,9 +246,16 @@ def verify_login(request, session):
 
 @app.route("/")
 def home():
-    print("hereeee")
-    print("the session data is" , dict(session))
-    return render_template("home.html" )
+
+    query = """
+    select note_id , title , price, subject ,user_id,username,   description      from 
+    notes, users 
+    where notes.publisher_id = users.user_id
+    """
+    cursor.execute(query)
+    notes = cursor.fetchall()
+
+    return render_template("home.html" , notes = notes)
 
 @app.route("/search" , methods = ["GET"])
 def search():
@@ -282,13 +313,14 @@ def preview():
     
     if request.method == "GET":
 
-        
 
 
+    
         print(request.args.get("package"))
 
-        if request.args.get("note") != None:
+        if request.args.get("note") is not  None:
             type = "n"
+            print("its a note")
             object_id = request.args.get("note")
             query = f"""select note_id , title , price , subject , notes.publisher_id , users.username   , notes.description 
                 from notes,users
@@ -304,41 +336,94 @@ def preview():
                 package_id = '{object_id}' """
 
         cursor.execute(query)
+
         data =  cursor.fetchall()[0]
+            
 
-        payment_data = {
-           "amount": data[2]*100,
-           "currency": "INR",
-           "payment_capture":'1',
-           "notes" : {
-            "note_id": object_id,
-            "user_id": session.get("user_id")
+        
+        if verify_login(request ,session):
+            logged_in = True 
+            
+            query2 = f"""
+                select * from purchases 
+                where user_id = {session.get('user_id')} 
+                and note_id = {object_id}
+                and type = '{type}'
+                """
+            print(session , type , object_id)
+            cursor.execute(query2)
+            data2 =  cursor.fetchall()
+            print("the type is " , type)
+            if len(data2) == 0:
+                pre_owned = False
+                payment_data = {
+                   "amount": data[2]*100,
+                   "currency": "INR",
+                   "payment_capture":'1',
+                   "notes" : {
+                    "note_id": object_id,
+                    "user_id": session.get("user_id"),
+                    "type":type
+                }
+                }
+                payment = client.order.create(data=payment_data)
+                print("the data is " , data)
+            else:
+              
+                payment = []
+                pre_owned = True
+                
+        else:
+            session["next_path"] = request.url
+            logged_in= False
+            pre_owned =  False 
+            payment = []
 
-        }
-           }
-        payment = client.order.create(data=payment_data)
+
 
         # cursor.execute(f"select count(rating) from purchases where note_id = {id}")
         # rating = cursor.fetchone()[0]
 
-        print("the data is " , data)
+        return  render_template("preview.html" , data = data , rating = 0 , type = type, payment  = payment , logged_in = logged_in , pre_owned = pre_owned)
         # print(rating)
-        return  render_template("preview.html" , data = data , rating = 0 , type = type, payment  = payment )
+        
     elif request.method == "POST":
-        data = request.form
-        success  = client.utility.verify_payment_signature(dict(data))
-        if success:
-            data = client.order.payments(data["razorpay_order_id"])
-            notes = data.get("items").get("notes")
-            object_id = notes.get("note_id")
-            user_id = notes.get("user_id")
-            query =  f"insert into purchases values( default , {object_id} , {user_id} , now() , 0 ,{type} )"
-            cursor.execute(query)
-            connection.commit()
-            if type == "n":
-                return redirect("/preview?note={object_id}")
-            elif type == "p":
-                return redirect("/preview?package={object_id}")
+        
+        if verify_login(request , session):
+
+            data = request.form
+            success  = client.utility.verify_payment_signature(dict(data))
+            if success:
+                data = client.order.payments(data["razorpay_order_id"])
+                notes = data.get("items")[0].get("notes")
+                print(dict(session))
+                print("the notes are "  ,notes)
+                object_id = notes.get("note_id")
+                user_id = notes.get("user_id")
+                type = notes.get('type')
+                query =  f"insert into purchases values( default , {object_id} , {user_id} , now() , 0 ,'{type}' ,'' )"
+                cursor.execute(query)
+                connection.commit()
+                if type == "n":
+                    return redirect(f"/preview?note={object_id}")
+                elif type == "p":
+                    return redirect(f"/preview?package={object_id}")
+            else:
+                session["next_path"] = request.url 
+                return redirect("/sign_in")
+
+@app.route("/library")
+def library():
+
+    query = """
+        select note_id , title , price, subject ,user_id,username,description  from 
+        notes, users 
+        where notes.publisher_id = users.user_id
+        """
+    cursor.execute(query)
+    notes = cursor.fetchall()
+    
+    return render_template("library.html" , notes = notes)
 
 @app.route("/sign_in" , methods = ["GET", "POST"])
 def sign_in(  ):
@@ -349,7 +434,7 @@ def sign_in(  ):
         print(email)
         password = request.form.get("password") 
         
-
+        
         cursor.execute(f"select user_id , password , username from users where email='{email}'")
         data = cursor.fetchone()
         real_password  =  data[1]
@@ -364,6 +449,7 @@ def sign_in(  ):
             next_path = session.get("next_path")
             if next_path == None:
                 next_path = "/"
+            print("the next pathis " , next_path)
             response = make_response(redirect(next_path ))   
 
             response.set_cookie("email" , email)
@@ -382,24 +468,21 @@ def sign_in(  ):
 @app.route("/otppage" , methods = ["GET","POST"])
 def checker():
     
-    try:
-        if  request.form.get("email")!= None:
+    
+    if  request.form.get("email")!= None:
 
-            session["email"] = request.form.get("email")
-        if request.form.get("password") != None:
+        session["email"] = request.form.get("email")
+    if request.form.get("password") != None:
 
-            session["password"] = request.form.get("password")
-        if request.form.get("repassword")!= None:
-            session["repassword"] = request.form.get("repassword")
+        session["password"] = request.form.get("password")
+    if request.form.get("repassword")!= None:
+        session["repassword"] = request.form.get("repassword")
         
         
-    except:
-        pass
-    try:
-        if request.form.get("entered_otp") != None:
-            session["entered_otp"] = request.form.get("entered_otp")
-    except:
-        session[entered_otp] = None
+    
+    
+    if request.form.get("entered_otp") != None:
+        session["entered_otp"] = request.form.get("entered_otp")  
 
     email = session["email"]
     password = session["password"]
@@ -579,6 +662,7 @@ def purchase_complete():
             
 @app.route("/mynotes")
 def mynotes():
+    print( "testting type" , type("nasa") )
     if verify_login(request , session):
         user_id = session.get("user_id")
         command = f"""select  notes.note_id, title , subject  , type
@@ -687,24 +771,26 @@ def verifier_single_note(id):
     return redirect("/verifier")
 
 
-
-
-
 @app.route("/noteviewer" , methods = ["GET" ,"POST"])
 def noteviewer():
     
-    requestType = request.form.get("type")
-    print(requestType)
+    
+    # print( "testting type" , ("nasa") )
     # form_data = json.loads(request.data)
 
-
+    cursor = connection.cursor()
 
     print("the form data is " , dict(request.form))
 
-
+    
     if verify_login(request , session):
 
         if request.method == 'POST':
+            requestType = request.form.get("type")
+            print( "the request form is" ,dict(request.form))
+            print("the request type is ", requestType)
+           
+            print("post request in noteviewer fuction")
         
             if requestType == "post_comment":
 
@@ -776,6 +862,50 @@ def noteviewer():
                 connection.commit()   
             
                 return "success"
+            
+            elif requestType == "post_review":
+                print("in the post review plae")
+                reviewText = request.form.get("review")
+                note_id = int(request.form.get("note_id"))
+                print(reviewText , note_id)
+
+                query1 = f"select note_id from purchases where user_id  = {session.get('user_id')}"
+                cursor.execute(query1)
+                data = cursor.fetchall()
+                print((note_id,))
+                x = "nasa"
+                # print( type(x) )
+                # print("1",  type( cursor.fetchall()) ) 
+                # print(any(  x[0] == note_id for x in cursor.fetchall() ))
+                # print("2", type((note_id,)) )
+  
+
+                if any(  x[0] == note_id for x in data):
+
+                    print(True)
+                    query2 = f"update purchases set review= '{reviewText}' where user_id = {session.get('user_id')} and note_id = {note_id}"
+                    cursor.execute(query2)
+                    connection.commit()
+                    
+                    return "done"
+
+                return 'failed'
+
+            elif requestType == "get_reviews":
+                print("giving reviews")
+                query =  f"""
+                            select rating , review , users.user_id , username
+                            from purchases, users where
+                            purchases.user_id = users.user_id and 
+                            note_id = {request.form.get('id')}  and 
+                            review is not null"""
+
+                cursor.execute(query)
+                data = { "reviews": cursor.fetchall() }
+                data = json.dumps(data)
+                print(data)
+                
+                return str(data)
 
                 
         else:
@@ -794,7 +924,12 @@ def noteviewer():
                     """
                     type=  "n"
 
-                    main_data = cursor.execute(query1)
+                    cursor.execute(query1)
+                    results = cursor.fetchall()
+                    if len(results) != 0:
+                        main_data = results[0]
+                    else:
+                        main_data = None
 
                     
                 elif request.args.get("package") is not None:
@@ -814,16 +949,27 @@ def noteviewer():
                     """
 
                     type = "p"
+
+                    
                     
                     cursor.execute(query1)
                     data = cursor.fetchall()
+
+                    package_details_query = f"select * from packages where package_id = {object_id}"
+                    cursor.execute(package_details_query)
+                    package_data = cursor.fetchall()[0]
+
+                    print(data)
 
                     if request.args.get("index") is not None:
                         index = request.args.get("index")
 
                     else:
                         index = 0
-                    main_data = data[index]
+                    if len(data) !=0 :
+                        main_data = data[int(index)]
+                    else:
+                        main_data =  None
                 print( "the main data is ", main_data)
 
 
@@ -858,14 +1004,20 @@ def noteviewer():
                    
                 reply_numbers = json.dumps({"reply_comments" : reply_numbers})
                 comments = json.dumps({"comments" : comments})
-                print(comments)
+                print(comments) 
                 # print(reply_numbers)
-                
-                if len(data) != 0:
+
+                if main_data[6] == session.get("user_id"):
+                    is_publisher = True 
+                else:
+                    is_publisher = False
+
+            
+                if main_data is not None:
                     if type == "n":
-                        return render_template("noteviewer.html" , main_data = main_data , comments = comments  , reply_numbers = reply_numbers , type = type)
+                        return render_template("noteviewer.html" , main_data = main_data , comments = comments  , reply_numbers = reply_numbers , type = type , user_id = session.get("user_id") , is_publisher = is_publisher)
                     elif type == "p":
-                        return render_template("noteviewer.html" , main_data = main_data , data = data , comments = comments  , reply_numbers = reply_numbers , type = type , length = len(data))
+                        return render_template("noteviewer.html" , main_data = main_data , data = data , comments = comments  , reply_numbers = reply_numbers , type = type , length = len(data), package_data = package_data, user_id = session.get("user_id"), is_publisher = is_publisher)
 
            
         
@@ -873,4 +1025,4 @@ def noteviewer():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True , host  = "0.0.0.0")
